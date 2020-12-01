@@ -28,8 +28,8 @@ define ('SMS_TEMPLATE', 			    'templates/sms/');
 define ('EMAIL_TEMPLATE', 			    'templates/email/');
 
 define ('APP_NAME', 					'Easy Coaching');
-define ('BRANDING_TEXT', 				'Powered by Easy Coaching');
-define ('BRANDING_URL', 				'https://easycoachingapp.com');
+define ('BRANDING_TEXT', 				'Inovexia Software Services Pvt Ltd');
+define ('BRANDING_URL', 				'https://inovexiasoftware.com');
 
 /* MENU TYPES */
 define ('MENUTYPE_SIDEMENU', 				1);
