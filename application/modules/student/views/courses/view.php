@@ -113,6 +113,11 @@
 								</div>
 							</div>
 							<div class="flex-shrink-0 my-auto">
+								<?php $c_duration = $row['duration'];
+
+								if($c_duration != 0){ ?>
+
+									<div class="course-duration">
 									<?php echo $row['duration']; ?>
 									<?php 
 	                            	if ($row['duration_type'] == LESSON_DURATION_MIN) {
@@ -128,6 +133,10 @@
 	                            	<?php } else { ?>
 	                            		<span><i class="fa fa-lock"></i></span>
 	                            	<?php } ?>
+	                            </div>
+
+								 <?php } ?>
+								
 							</div>
 						</div>
 						<div class="separator mb-1"></div>
