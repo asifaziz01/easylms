@@ -31,10 +31,12 @@ class User extends MX_Controller {
 			$logo_path =  $coaching_dir . $coaching_logo;
 			$logo = base_url ($logo_path);
 			$page_title = $coaching['coaching_name'];
+			$website_link = $coaching['website'];
 			$found = true;
 		}
 
 		$data['page_title'] = $page_title;
+		$data['website_link'] = $website_link;
 		$data['logo'] = $logo;
 		$data['access_code'] = $access_code;
 		$data['found'] = $found;
@@ -69,6 +71,7 @@ class User extends MX_Controller {
 			$logo_path =  $coaching_dir . $coaching_logo;
 			$logo = base_url ($logo_path);
 			$page_title = $coaching['coaching_name'];
+			$website_link = $coaching['website'];
 			$found = true;
 		}
 
@@ -84,6 +87,7 @@ class User extends MX_Controller {
 		$data['role_id'] = $role_id;
 		$data['found'] = $found;
 		$data['coaching'] = $coaching;
+		$data['website_link'] = $website_link;
 		
 		$data['script'] = $this->load->view ('scripts/register', $data, true); 
 		$this->load->view (INCLUDE_PATH . 'header', $data);
@@ -117,7 +121,7 @@ class User extends MX_Controller {
 		$data['page_title'] = $page_title;
 		$data['logo'] 		= $logo;
 		$data['access_code']= $access_code;
-		$data['page_title'] = $page_title;
+		// $data['page_title'] = $page_title;
 		
 		$this->load->view (INCLUDE_PATH . 'header', $data);
 		$this->load->view('reset_password');		
