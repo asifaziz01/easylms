@@ -88,7 +88,8 @@ class User extends MX_Controller {
 		$data['found'] = $found;
 		$data['coaching'] = $coaching;
 		$data['website_link'] = $website_link;
-		
+
+		$data['dyn_css'] = ['assets/css/vendor/smart_wizard.min.css']; 
 		$data['script'] = $this->load->view ('scripts/register', $data, true); 
 		$this->load->view (INCLUDE_PATH . 'header', $data);
 		$this->load->view ( 'register', $data); 

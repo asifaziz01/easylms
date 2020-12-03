@@ -21,7 +21,7 @@
 	<!-- Custom JS (Dynamically included) -->
 	<?php
 	if (isset ($script)) {
-		echo $script;	
+		echo $script;
 	}
 
 	$this->load->view ('templates/common/scripts');

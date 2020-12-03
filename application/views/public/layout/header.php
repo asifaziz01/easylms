@@ -50,11 +50,20 @@
     <!-- Toastr CSS -->
     <link type="text/css" href="<?php echo base_url(THEME_PATH . 'assets/css/toastr.min.css'); ?>" rel="stylesheet">
 
-    <!-- Custom JS (Dynamically included) -->
+    <!-- Dynamically included CSS -->
+    <?php
+    if (isset ($dyn_css) && !empty ($dyn_css)) {
+        foreach ($dyn_css as $css) {
+            echo '<link rel="stylesheet" href="'.base_url(THEME_PATH . $css).'" />';
+        }
+    }
+    ?>
+
+    <!-- Dynamically included Javascript -->
     <?php
     if (isset ($script_header) && !empty ($script_header)) {
         foreach ($script_header as $script) {
-            echo '<script src="'.base_url($script).'" type="text/javascript"></script>';
+            echo '<script src="'.base_url($script).'" type="text/javascript"></script>'; 
         }
     }
     ?>

@@ -55,12 +55,69 @@ class Login_actions extends MX_Controller {
 		}
 	}
 	
+	/*
+	 *
+	 Register Page Functions
+	 *
+	 */
+
+	// Validate USer Mobile	
+	public function validate_user_mobile ($name='', $mobile='') {
+		$status = false;
+
+		// $name = $this->input->post ('first_name');
+		if ( !isset ($name) || empty ($name) || $name == "") {
+			$message = 'Name is required';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
+		} else if ( empty ($mobile) || $mobile == "") {
+			$message = 'Mobile number is required';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$name)));
+		} else if (filter_var( $mobile, FILTER_VALIDATE_INT) == false) {
+			$message = 'Check mobile number and try again';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
+		} else if (strlen ($mobile) <> 10) {
+			$message = 'Mobile number must contain 10 digits';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
+		} else {
+			
+			$otp = $this->login_model->send_register_otp ($mobile);
+			$status = true;
+			$message = 'An OTP has been sent on your mobile, valid for 30 minutes. ' . $otp;
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'message'=>$message )));
+		}
+	}
+
+
+	public function validate_otp ($mobile=0, $otp=0) {
+		$status = false;
+		$get_otp = $this->session->userdata ('register_otp');
+		if ($get_otp['valid'] < time ()) {
+			$message = 'This OTP has expired. Please try again';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message )));
+		} else if ($get_otp['mobile'] == $mobile && $get_otp['otp'] == $otp) {
+			$status = true;
+			$message = 'OTP validated successfully';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'message'=>$message )));
+		} else {
+			$status = false;
+			$message = 'Invalid OTP';
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message )));
+		}
+	}
 
 	public function register () {
 		$this->form_validation->set_rules('first_name', 'Name', 'required|trim', ['required'=>'Please enter Your Name.']); 
-		$this->form_validation->set_rules ('primary_contact', 'Primary Contact', 'required|is_natural|trim|max_length[14]');
+		$this->form_validation->set_rules('primary_contact', 'Primary Contact', 'required|is_natural|trim|max_length[14]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
 		$this->form_validation->set_rules('email', 'Email', 'valid_email|trim');
-		$this->form_validation->set_rules ('password', 'Password', 'required|min_length[8]');
 		$this->form_validation->set_rules('agree', 'Agree', 'required', ['required'=>'You must agree to the terms and conditions']); 
 		$this->form_validation->set_rules ('access_code', 'Access Code', 'required|trim', ['required'=>'Please enter your access code which you recieved from your institution']);
 		 
@@ -159,7 +216,6 @@ class Login_actions extends MX_Controller {
 					$subject = 'Account Created';
 					$this->common_model->send_email ($to, $subject, $email_message);				
 				}
-
 
 				$this->output->set_content_type("application/json");
 				$this->output->set_output(json_encode(array('status'=>true, 'message'=>$message, 'redirect'=>site_url('login/user/index?sub='.$ac)) ));
