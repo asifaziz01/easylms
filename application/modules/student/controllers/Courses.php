@@ -60,6 +60,28 @@ class Courses extends MX_Controller {
 		$this->load->view(INCLUDE_PATH . 'footer', $data);
 	}
 
+	public function enrol_in_course ($coaching_id = 0, $course_id=0, $member_id=0) {
+		
+		$data['page_title'] = 'Enrol In Courses';
+		if ($coaching_id==0) {
+            $coaching_id = $this->session->userdata ('coaching_id');
+        }
+        if ($member_id==0){
+            $member_id = $this->session->userdata ('member_id');
+        }
+       
+		$data['bc'] = array('All Courses' => 'student/courses/index/' . $coaching_id . '/' . $member_id);
+		$data['coaching_id'] = $coaching_id;
+		$data['member_id'] = $member_id;
+		$data['batch_id'] = 0;
+		//$data['courses'] = $this->courses_model->my_courses ($coaching_id, $member_id);
+		//$data['script'] = $this->load->view('courses/scripts/my_courses', $data, true);
+
+		$this->load->view(INCLUDE_PATH . 'header', $data);
+		$this->load->view('courses/enrol_in_course', $data);
+		$this->load->view(INCLUDE_PATH . 'footer', $data);
+	}
+
 	public function view ($coaching_id=0, $member_id=0, $course_id=0, $batch_id=0) {
 		if ($coaching_id==0) {
             $coaching_id = $this->session->userdata ('coaching_id');

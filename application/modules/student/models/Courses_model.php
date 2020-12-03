@@ -40,7 +40,11 @@ class Courses_model extends CI_Model {
 		if (! empty($courses)) {
 			foreach ($courses as $i => $course) {
 				$cat = $this->get_course_category_by_id ($course['cat_id']);
-				$course['cat_title'] = $cat['title'];
+				if ($cat) {
+					$course['cat_title'] = $cat['title'];
+				} else {
+					$course['cat_title'] = 'Uncategorized';					
+				}
 				$result[] = $course;
 			}
 		}
@@ -185,7 +189,27 @@ class Courses_model extends CI_Model {
 			$data['course_id']	 		= $course_id;
 			$data['batch_id']	 		= $batch_id;
 			$data['member_id']	 		= $member_id;
+			$data['enroled_on']	 		= time ();
+			$data['status']	 			= COURSE_ENROLMENT_STATUS_PENDING;
 			$this->db->insert('coaching_course_batch_users', $data);
+		}
+	}
+	
+	public function enrol_in_course ($coaching_id=0, $member_id=0, $course_id=0, $batch_id=0){
+		$this->db->where ('member_id', $member_id);
+		$this->db->where ('coaching_id', $coaching_id);
+		$this->db->where ('course_id', $course_id);
+		$this->db->where ('batch_id', $batch_id);
+		$this->db->where ('status', COURSE_ENROLMENT_STATUS_PENDING);
+		$sql = $this->db->get ('coaching_course_enrol_request');
+		if ($sql->num_rows() == 0) {
+			$data['coaching_id']	 	= $coaching_id;
+			$data['course_id']	 		= $course_id;
+			$data['batch_id']	 		= $batch_id;
+			$data['member_id']	 		= $member_id;
+			$data['request_date']	 	= time ();
+			$data['status']	 			= COURSE_ENROLMENT_STATUS_PENDING;
+			$this->db->insert('coaching_course_enrol_request', $data);
 		}
 	}
 

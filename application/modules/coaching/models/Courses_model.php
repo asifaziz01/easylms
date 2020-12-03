@@ -715,4 +715,24 @@ class Courses_model extends CI_Model {
 		return $new_course_id;
 
 	}
+
+
+	public function get_enrolment_requests ($coaching_id=0) {
+		$this->db->select ('ER.*, U.first_name, U.last_name, U.primary_contact, C.title');
+		$this->db->from ('coaching_course_enrol_request ER');
+		$this->db->join ('members U', 'U.member_id=ER.member_id');
+		$this->db->join ('coaching_courses C', 'C.course_id=ER.course_id');
+		//$this->db->where ('U.member_id', 'ER.member_id');
+		//$this->db->where ('C.course_id', 'ER.course_id');
+		$this->db->where ('ER.coaching_id', $coaching_id);
+		$this->db->where ('ER.status', 0);
+		$sql = $this->db->get ();
+		if ($sql->num_rows () > 0) {
+			$result = $sql->result_array ();
+		} else {
+			$result = false;
+		}
+		return $result;
+
+	}
 }

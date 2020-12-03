@@ -46,6 +46,7 @@ class Home extends MX_Controller {
 		$data['dashboard_menu'] = $this->common_model->load_acl_menus ($role, 0, MENUTYPE_DASHBOARD);
 
 		$data['coaching'] = $this->coaching_model->get_coaching ($coaching_id);
+		$data['enrol_request'] = $enrol_courses = $this->courses_model->get_enrolment_requests ($coaching_id);
 		$data['subscription'] = $this->subscription_model->get_coaching_subscription ($coaching_id);
 		$data['announcements'] = $this->coaching_model->get_coaching_announcements ($coaching_id);
 		$data['courses'] 	= $courses = $this->courses_model->courses($coaching_id);
@@ -53,7 +54,13 @@ class Home extends MX_Controller {
 		if (! empty ($courses)) {
 			$data['num_courses'] = count ($courses);
 		} else {
-			$data['num_courses'] = 0;			
+			$data['num_courses'] = 0;
+		}
+
+		if (! empty ($enrol_courses)) {
+			$data['num_requests'] = count ($enrol_courses);
+		} else {
+			$data['num_requests'] = 0;
 		}
 
 		$start_date = mktime (0, 0, 0, date('m'), date('d'), date('Y'));

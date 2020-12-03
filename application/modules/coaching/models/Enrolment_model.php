@@ -323,4 +323,34 @@ class Enrolment_model extends CI_Model {
 		$result['total_progress'] = $row['total_progress'];
 		return $result;
 	}
+
+	public function approve_enrolment ($coaching_id=0, $course_id=0, $batch_id=0, $member_id=0) {
+		
+		$this->db->where ('coaching_id', $coaching_id);
+		$this->db->where ('course_id', $course_id);
+		$this->db->where ('batch_id', $batch_id);
+		$this->db->where ('member_id', $member_id);
+		$sql = $this->db->get ('coaching_course_batch_users');
+		if  ($sql->num_rows () == 0 ) { 
+			$data['coaching_id'] = $coaching_id;
+			$data['course_id'] = $course_id;
+			$data['member_id'] = $member_id;
+			$data['batch_id']  = $batch_id;
+			$data['enroled_on']  = time ();
+			$sql = $this->db->insert ('coaching_course_batch_users', $data);
+			// change request
+			$this->db->set ('status', 1);
+			$this->db->where ('coaching_id', $coaching_id);
+			$this->db->where ('course_id', $course_id);
+			$this->db->where ('batch_id', $batch_id);
+			$this->db->where ('member_id', $member_id);
+			$sql = $this->db->update ('coaching_course_enrol_request');
+		}
+	
+		$vc = $this->virtual_class_model->get_batch_vc ($coaching_id, $course_id, $batch_id);
+		if ($vc) {
+			$this->virtual_class_model->add_participants ($coaching_id, $vc['class_id'], $course_id, $batch_id);
+		}
+	}
+
 }

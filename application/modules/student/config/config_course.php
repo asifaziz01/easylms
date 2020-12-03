@@ -25,6 +25,9 @@ define ('TEACHERS_NOT_ASSIGNED', 				2);
 define ('COURSE_ENROLMENT_DIRECT', 				1);
 define ('COURSE_ENROLMENT_BATCH', 				2);
 
+define ('COURSE_ENROLMENT_STATUS_PENDING', 		0);
+define ('COURSE_ENROLMENT_STATUS_APPROVED', 	1);
+
 define ('COURSE_CONTENT_TEST', 					1);
 define ('COURSE_CONTENT_CHAPTER', 				2);
 

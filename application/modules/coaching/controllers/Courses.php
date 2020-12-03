@@ -297,4 +297,18 @@ class Courses extends MX_Controller {
 		$this->load->view('courses/teachers', $data);
 		$this->load->view(INCLUDE_PATH . 'footer', $data);
 	}
+
+	public function enrolment_requests ($coaching_id=0) {
+		$data['page_title'] 	= 'Enrolment Requests';
+		$data['coaching_id'] 	= $coaching_id;
+
+		/* --==// Back //==-- */
+		$data['bc'] = ['Manage'=>'coaching/courses/manage/'.$coaching_id];
+
+		$data['enrol_requests'] = $this->courses_model->get_enrolment_requests ($coaching_id);
+		$this->load->view(INCLUDE_PATH . 'header', $data);
+		$this->load->view('courses/enrolment_requests', $data);
+		$this->load->view(INCLUDE_PATH . 'footer', $data);
+
+	}
 }

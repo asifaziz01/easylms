@@ -41,7 +41,7 @@
 	            	<?php if ($course['enrolment_type'] == COURSE_ENROLMENT_DIRECT) { ?> 
             			<div class="text-center mb-5">
 		       				<a class="btn btn-secondary btn-lg  mt-2 mr-2" href="<?php echo site_url('student/courses/try_course/'.$coaching_id.'/'.$member_id.'/'.$course_id); ?>"><span>Take A Demo</span></a>
-		       				<a class="btn btn-primary btn-lg mt-2 " href="<?php echo site_url('student/courses/buy_course/'.$coaching_id.'/'.$member_id.'/'.$course_id); ?>"><span>Enrol Now</span></a>
+		       				<a class="btn btn-primary btn-lg mt-2 " href="<?php echo site_url('student/courses_actions/enrol_in_course/'.$coaching_id.'/'.$member_id.'/'.$course_id); ?>"><span>Enrol Now</span></a>
 		       			</div>
 	            	<?php } else { ?>
 						<?php if ( ! empty ($batches)) { ?>
@@ -75,7 +75,7 @@
 											}
 			                            	?>
 			                                <?php if ($seats > 0) { ?>
-					            				<a class="btn btn-primary btn-xs" href="<?php echo site_url('student/courses_actions/buy_course/'.$coaching_id.'/'.$member_id.'/'.$course_id.'/'.$batch['batch_id']); ?>">Enrol Now</a>
+					            				<a class="btn btn-primary btn-xs" href="<?php echo site_url('student/courses_actions/enrol_in_course/'.$coaching_id.'/'.$member_id.'/'.$course_id.'/'.$batch['batch_id']); ?>">Enrol Now</a>
 											<?php } ?>
 										</div>
 			                        </div>
@@ -206,7 +206,7 @@
 	            	<?php if ($course['enrolment_type'] == COURSE_ENROLMENT_DIRECT) { ?> 
             			<div class="text-center mb-5">
 		       				<a class="btn btn-secondary btn-lg  mr-2" href="<?php echo site_url('student/courses/try_course/'.$coaching_id.'/'.$member_id.'/'.$course_id); ?>"><span>Take A Demo</span></a>
-		       				<a class="btn btn-primary btn-lg mt-2 " href="<?php echo site_url('student/courses_actions/buy_course/'.$coaching_id.'/'.$member_id.'/'.$course_id); ?>"><span>Enrol Now</span></a>
+		       				<a class="btn btn-primary btn-lg mt-2 " href="<?php echo site_url('student/courses_actions/enrol_in_course/'.$coaching_id.'/'.$member_id.'/'.$course_id); ?>"><span>Enrol Now</span></a>
 		       			</div>
 	            	<?php } else { ?>
 						<?php if ( ! empty ($batches)) { ?>
@@ -240,7 +240,7 @@
 											}
 			                            	?>
 			                                <?php if ($seats > 0) { ?>
-					            				<a class="btn btn-primary btn-xs" href="<?php echo site_url('student/courses_actions/buy_course/'.$coaching_id.'/'.$member_id.'/'.$course_id.'/'.$batch['batch_id']); ?>">Enrol Now</a>
+					            				<a class="btn btn-primary btn-xs" href="<?php echo site_url('student/courses_actions/enrol_in_course/'.$coaching_id.'/'.$member_id.'/'.$course_id.'/'.$batch['batch_id']); ?>">Enrol Now</a>
 											<?php } ?>
 										</div>
 			                        </div>

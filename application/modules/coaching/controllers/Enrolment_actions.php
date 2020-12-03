@@ -61,7 +61,7 @@ class Enrolment_actions extends MX_Controller {
 	
 	
 	public function add_users_to_batch ($coaching_id=0, $course_id=0, $batch_id=0) {
-		
+
 		$this->form_validation->set_rules ('users[]', 'Users', 'required');
 		if ($this->form_validation->run () == true) {
 			$this->enrolment_model->add_users_to_batch ($coaching_id, $course_id, $batch_id);			
@@ -73,6 +73,13 @@ class Enrolment_actions extends MX_Controller {
 			$this->output->set_content_type("application/json");
 			$this->output->set_output(json_encode(array('status'=>false, 'error'=>validation_errors () )));
 		}
+	}
+
+	public function approve_enrolment ($coaching_id=0, $course_id=0, $batch_id=0, $member_id=0) {		
+		$this->enrolment_model->approve_enrolment ($coaching_id, $course_id, $batch_id, $member_id);
+		$message = 'User enroled in course successfully';
+		$this->message->set ($message, 'success', true);
+		redirect ('coaching/courses/enrolment_requests/'.$coaching_id);
 	}
 	
 	public function remove_batch_users ($coaching_id=0, $course_id=0, $batch_id=0, $member_id=0, $add_user=0) {		

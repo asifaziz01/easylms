@@ -43,16 +43,16 @@
     </div>
     <div class="col-lg-4">
         <div class="card mb-4 progress-banner">
-            <a href="<?php echo site_url ('coaching/courses/index/'.$coaching_id); ?>" class="card-body justify-content-between d-flex flex-row align-items-center">
+            <a href="<?php echo site_url ('coaching/courses/enrolment_requests/'.$coaching_id); ?>" class="card-body justify-content-between d-flex flex-row align-items-center">
                 <div>
                     <i class="iconsminds-books mr-2 text-white align-text-bottom d-inline-block"></i>
                     <div>
-                        <p class="lead text-white"><?php echo $num_courses; ?> Courses</p>
-                        <p class="text-small text-white"></p>
+                        <p class="lead text-white"><?php echo $num_requests; ?> Request(s)</p>
+                        <p class="text-small text-white">Course enrolment request</p>
                     </div>
                 </div>
                 <div>
-                	<button class="btn btn-light btn-sm">View Courses</button>
+                	<button class="btn btn-light btn-sm">View Requests</button>
                 </div>
             </a>
         </div>
