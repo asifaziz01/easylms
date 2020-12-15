@@ -13,7 +13,7 @@
 <div class="modal fade" id="import_text" tabindex="-1" role="dialog" aria-labelledby="import_text" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <?php echo form_open_multipart ('qb/functions/import_from_text/'.$lesson_id.'/'.$test_id, array ('class'=>'form-horizontal', 'id'=>'upload-from-text') ); ?>
+        <?php echo form_open_multipart ('coaching/qb_actions/import_from_text/'.$coaching_id.'/'.$course_id.'/'.$test_id, array ('class'=>'form-horizontal', 'id'=>'upload-from-text') ); ?>
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Select Text File</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -38,7 +38,7 @@
 <div class="modal fade" id="import_csv" tabindex="-1" role="dialog" aria-labelledby="import_csv" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <?php echo form_open_multipart ('qb/functions/import_from_csv/'.$lesson_id.'/'.$test_id, array ('class'=>'form-horizontal', 'id'=>'upload-from-csv') ); ?>
+        <?php echo form_open_multipart ('coaching/qb_actions/import_from_csv/'.$coaching_id.'/'.$course_id.'/'.$test_id, array ('class'=>'form-horizontal', 'id'=>'upload-from-csv') ); ?>
           <div class="modal-header">
             <h5 class="modal-title" id="">Select CSV File</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

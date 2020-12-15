@@ -14,7 +14,6 @@ class Qb_actions extends MX_Controller {
 		
 		$this->load->helper ('directory');
 		$this->load->helper ('file');
-		$this->load->model ('tests/tests_model');
 		
 		$test = $this->tests_model->view_tests ($test_id);
 		
@@ -109,6 +108,8 @@ class Qb_actions extends MX_Controller {
 				foreach ($content as $line) {
 					$line = strip_tags ($line);
 					if ( strlen ($line) > 0 ) {				// Not an empty line
+
+						echo $line;
 							
 						// Question heading
 						// This is a question group

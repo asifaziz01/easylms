@@ -3,7 +3,7 @@
 $config['config_course'] = '';
 
 // Lesson status
-define ('LESSON_STATUS_ALL', 				-1);
+define ('LESSON_STATUS_ALL', 					-1);
 define ('LESSON_STATUS_PUBLISHED', 				1);
 define ('LESSON_STATUS_UNPUBLISHED', 			0);
 
@@ -30,11 +30,11 @@ define ('SCHEDULE_REPEAT_WEEKLY', 				2);
 define ('COURSE_CONTENT_TEST', 					1);
 define ('COURSE_CONTENT_CHAPTER', 				2);
 
-defined('COURSE_STATUS_INACTIVE') or define('COURSE_STATUS_INACTIVE', 0);
-defined('COURSE_STATUS_ACTIVE') or define('COURSE_STATUS_ACTIVE', 1);
-defined('COURSE_STATUS_TRASH') or define('COURSE_STATUS_TRASH', 2);
+define('COURSE_STATUS_INACTIVE', 				0);
+define('COURSE_STATUS_ACTIVE', 					1);
+define('COURSE_STATUS_TRASH', 					2);
 
-defined('CATEGORY_STATUS_ALL') or define('CATEGORY_STATUS_ALL', -1);
-defined('CATEGORY_STATUS_INACTIVE') or define('CATEGORY_STATUS_INACTIVE', 0);
-defined('CATEGORY_STATUS_ACTIVE') or define('CATEGORY_STATUS_ACTIVE', 1);
-defined('CATEGORY_STATUS_TRASH') or define('CATEGORY_STATUS_TRASH', 2);
+define('CATEGORY_STATUS_ALL', 					-1);
+define('CATEGORY_STATUS_INACTIVE', 				0);
+define('CATEGORY_STATUS_ACTIVE', 				1);
+define('CATEGORY_STATUS_TRASH', 				2);

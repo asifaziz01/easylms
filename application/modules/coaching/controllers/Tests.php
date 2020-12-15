@@ -156,9 +156,10 @@ class Tests extends MX_Controller {
 		$data['toolbar_buttons'] = $this->toolbar_buttons;
 		
 		$data['courses']  = $this->tests_model->coaching_courses ($coaching_id);
-		$data['results'] = $this->tests_model->view_tests ($test_id);
+		$data['results'] = $test = $this->tests_model->view_tests ($test_id);
 		if ($test_id > 0) {
-			$data['page_title'] = 'Edit Test: ' . $data['results']['title'];
+			$data['page_title'] = 'Edit Test';
+			$data['sub_title'] = $test['title'];
 		} else {
 			$data['page_title'] = 'Create Test';
 		}

@@ -4,6 +4,7 @@ $config['config_coachings'] = '';
 
 if (! defined ('INCLUDE_PATH')) define ('INCLUDE_PATH', 			    'coaching/layout/');
 
+
 define ('COACHING_ID_PREFIX1', 			'EA');
 define ('COACHING_ID_PREFIX2', 			date ('Y'));
 define ('COACHING_ID_INCREMENT', 		1);

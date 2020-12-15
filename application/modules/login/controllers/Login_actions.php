@@ -73,7 +73,7 @@ class Login_actions extends MX_Controller {
 		} else if ( empty ($mobile) || $mobile == "") {
 			$message = 'Mobile number is required';
 			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$name)));
+			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
 		} else if (filter_var( $mobile, FILTER_VALIDATE_INT) == false) {
 			$message = 'Check mobile number and try again';
 			$this->output->set_content_type("application/json");
@@ -84,9 +84,9 @@ class Login_actions extends MX_Controller {
 			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
 		} else {
 			
-			$otp = $this->login_model->send_register_otp ($mobile);
+			$this->login_model->send_register_otp ($mobile);
 			$status = true;
-			$message = 'An OTP has been sent on your mobile, valid for 30 minutes. ' . $otp;
+			$message = 'An OTP has been sent on your mobile, valid for 30 minutes.';
 			$this->output->set_content_type("application/json");
 			$this->output->set_output(json_encode(array('status'=>$status, 'message'=>$message )));
 		}

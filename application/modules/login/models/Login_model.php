@@ -230,8 +230,7 @@ class Login_model extends CI_Model {
 		$data['register_otp'] = ['mobile'=>$mobile, 'otp'=>$otp, 'valid'=>time ()+1800];	// 30 minutes
 		$this->session->set_userdata ($data);	// Valid for 30 minutes
 		$message = $otp . ' is the OTP for your account registration on '. APP_NAME . ' valid for 30 minutes';
-		$this->sms_model->send_sms ($mobile, $message);
-		return $message;
+		$this->sms_model->send_sms ($mobile, $message);		
 	}
 
 }

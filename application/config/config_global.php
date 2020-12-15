@@ -27,7 +27,7 @@ define ('ANSWER_TEMPLATE', 			    'templates/answer_choices/');
 define ('SMS_TEMPLATE', 			    'templates/sms/');
 define ('EMAIL_TEMPLATE', 			    'templates/email/');
 
-define ('APP_NAME', 					'Easy Coaching');
+define ('APP_NAME', 					'Apex Coachings');
 define ('BRANDING_TEXT', 				'Inovexia Software Services Pvt Ltd');
 define ('BRANDING_URL', 				'https://inovexiasoftware.com');
 
