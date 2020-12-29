@@ -7,7 +7,9 @@ class User extends MX_Controller {
 		$config = ['config_login'];
 	    $models = ['coaching/coaching_model', 'login_model'];	    
 	    $this->common_model->autoload_resources ($config, $models);
-	    $this->load->helper ('file');
+		$this->load->helper ('file');
+		
+		$this->load->helper('captcha');
 	}
 	
  	public function index () {
@@ -41,6 +43,40 @@ class User extends MX_Controller {
 		$data['access_code'] = $access_code;
 		$data['found'] = $found;
 		$data['coaching'] = $coaching;
+
+
+		$vals = array(
+				'word'          => '',
+				'img_path'      => './contents/captcha/',
+				'img_url'       => base_url().'/contents/captcha/',
+				'img_width'     => '150',
+				'img_height'    => 30,
+				'word_length'   => 6,
+				'font_size'     => 16,
+				'img_id'        => 'Imageid',
+				'pool'          => '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+				
+
+				// White background and border, black text and red grid
+				'colors'        => array(
+						'background' => array(20, 83, 136),
+						'border' => array(255, 255, 255),
+						'text' => array(255,255,255),
+						'grid' => array(20, 83, 136)
+				)
+		);
+
+		$cap = create_captcha($vals);
+		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$captcha_key = array('time' => $cap['time'], 'ip_address' => $ip_address, 'word' => $cap['word']);
+		$this->session->set_userdata('captcha_key', $captcha_key);
+		$data['captcha'] = $cap['image'];
+		
+		
+		// $cap = create_captcha($vals);
+		// var_dump($cap);
+		
+
 		
 		$data['script'] = $this->load->view ('scripts/login', $data, true); 
 		$this->load->view (INCLUDE_PATH . 'header', $data);
@@ -50,6 +86,9 @@ class User extends MX_Controller {
 	
 	/* Register Page */
 	public function register () {
+
+
+		
 
 		// Default settings
 		$access_code = '';
@@ -88,8 +127,36 @@ class User extends MX_Controller {
 		$data['found'] = $found;
 		$data['coaching'] = $coaching;
 		$data['website_link'] = $website_link;
+			
 
-		$data['dyn_css'] = ['assets/css/vendor/smart_wizard.min.css']; 
+		$vals = array(
+				'word'          => '',
+				'img_path'      => './contents/captcha/',
+				'img_url'       => base_url().'/contents/captcha/',
+				'img_width'     => '150',
+				'img_height'    => 30,
+				'word_length'   => 6,
+				'font_size'     => 16,
+				'img_id'        => 'Imageid',
+				'pool'          => '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+				
+
+				// White background and border, black text and red grid
+				'colors'        => array(
+						'background' => array(20, 83, 136),
+						'border' => array(255, 255, 255),
+						'text' => array(255,255,255),
+						'grid' => array(20, 83, 136)
+				)
+		);
+
+		$cap = create_captcha($vals);
+		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$captcha_key = array('time' => $cap['time'], 'ip_address' => $ip_address, 'word' => $cap['word']);
+		$this->session->set_userdata('captcha_key', $captcha_key);
+		$data['captcha'] = $cap['image'];
+		
+		
 		$data['script'] = $this->load->view ('scripts/register', $data, true); 
 		$this->load->view (INCLUDE_PATH . 'header', $data);
 		$this->load->view ( 'register', $data); 
