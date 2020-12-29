@@ -18,11 +18,13 @@ class Message {
         $this->CI =& get_instance();        
         $this->CI->load->library('session');
         
-        if($this->CI->session->flashdata('_messages')) $this->messages = $this->CI->session->flashdata('_messages');
-        if(isset($config['wrapper'])) $this->wrapper = $config['wrapper'];
+        if($this->CI->session->flashdata('_messages')) 
+            $this->messages = $this->CI->session->flashdata('_messages');
+        if(isset($config['wrapper'])) 
+            $this->wrapper = $config['wrapper'];
     }
     
-    function set($message, $type, $flash=FALSE, $group=FALSE){
+    function set($message='', $type=FALSE, $flash=FALSE, $group=FALSE){
         if(!is_array($message)) $message = array($message);
         foreach($message as $msg){
             $obj = new stdClass();
@@ -35,9 +37,11 @@ class Message {
         
         $flash_messages = array();
         foreach($this->messages as $msg){
-            if($msg->flash) $flash_messages[] = $msg;
+            if ($msg->flash) 
+                $flash_messages[] = $msg;
         }
-        if(count($flash_messages)) $this->CI->session->set_flashdata('_messages', $flash_messages);
+        if(count($flash_messages)) 
+            $this->CI->session->set_flashdata('_messages', $flash_messages);
     }
     
     function get($type=FALSE, $group=FALSE){

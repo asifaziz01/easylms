@@ -55,7 +55,15 @@
                             <a href="<?php echo site_url ('login/user/get_access_code'); ?>" class="text">Get Access Code</a>
                         <?php } ?>
                     </div>
-
+                    <div class="form-group mb-4 captcha d-flex">
+                     <label for="captcha" class="col-sm-3 control-label px-0">Type captcha</label>
+                     <div class="col-sm-5">
+                        <input type="text" id="captcha" name="captcha" style="height:30px" class="form-control" required>
+                     </div>
+                     <div class="col-sm-3 img-responsive">
+                        <?php echo $captcha; ?>
+                     </div>
+                    </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <button class="btn btn-primary btn-lg btn-shadow" type="submit">LOGIN</button>
                     </div>

@@ -146,7 +146,8 @@ class Courses extends MX_Controller {
 		$data['page_title'] = 'Manage Course';
 
 		$data['course'] = $course = $this->courses_model->get_course_by_id ($course_id);
-		if (! $course) {
+		//echo $course; exit;
+		if (empty ($course)) {
 			$this->message->set ('Course not found', 'danger', true);
 			redirect ('coaching/courses/index/'.$coaching_id);			
 		}

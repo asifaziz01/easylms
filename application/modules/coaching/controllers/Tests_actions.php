@@ -608,4 +608,50 @@ class Tests_actions extends MX_Controller {
         $this->output->set_content_type("application/json");
         $this->output->set_output(json_encode(array('status'=>true, 'message'=>'marked')));
 	}
+
+	public function upload_questions ($coaching_id=0, $course_id=0, $test_id=0) {
+		
+		/*
+			Steps taken
+			1. Upload the file in a temporary location
+			2. Read the content of the file
+			3. Based on file extension, send it for processing to concerned precessor
+			4. Processor will analyze the content and send back reponse 
+				- If the content is as per template display likewise in page
+				- if the content has errors, try to highlight the error parts
+				- If the content is empty, throw back an error
+			5.  
+		*/
+		$this->load->helper ('directory');
+		$this->load->helper ('file');
+		
+		$test = $this->tests_model->view_tests ($test_id);
+		
+		$member_id = $this->session->userdata ('member_id');
+		
+		$upload_dir = $this->config->item ('upload_dir'). $member_id . '/temp/';
+		$temp_upload = directory_map ('./' . $upload_dir);
+		if ( ! is_array ($temp_upload)) {
+			@mkdir ($upload_dir, 0755, true);
+		}
+		
+		$config['upload_path'] = './' . $upload_dir;
+		$config['allowed_types'] = ['docx', 'txt'];
+		$config['overwrite'] = true;
+ 		
+		$this->load->library('upload', $config);
+		if ( ! $this->upload->do_upload()) {
+			$errors = $this->upload->display_errors();
+			$this->output->set_content_type("application/json");
+			$this->output->set_output(json_encode(array('status'=>false, 'error'=>$errors)));
+		} else {		
+			$upload_data = $this->upload->data();
+			$file_path = base_url ($upload_dir . $upload_data['file_name']);
+			$file = file_get_contents($file_path);
+		}
+
+
+	}
+
+
 }

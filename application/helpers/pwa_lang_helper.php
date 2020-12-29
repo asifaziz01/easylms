@@ -10,6 +10,7 @@ function _AT_TEXT ($code='', $type='', $lang='en') {
 			'INVALID_CREDENTIALS'=>'The username/password combination is incorrect',
 			'INVALID_USERNAME'=>'We don\'t recongnise you. Please check your username',
 			'INVALID_PASSWORD'=>'You have entered a wrong password',
+			'INVALID_CAPTCHA'=>'You have entered a wrong captcha',
 			'MAX_ATTEMPTS_REACHED'=>'Too many retry attempts. Try again after '.(LOCK_TIME/60).' minutes',
 			'LOGIN_ERROR'=>'There was some error. Please retry again',
 			'ACCOUNT_DISABLED'=>'Your account is disabled or pending for admin approval. Try again later',

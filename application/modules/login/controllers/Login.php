@@ -5,7 +5,7 @@ class Login extends MX_Controller {
     
     public function __construct () {
 		$config = ['config_login'];
-	    $models = ['login_model', 'coaching/coaching_model'];	    
+	    $models = ['login_model', 'coaching/coaching_model'];
 	    $this->common_model->autoload_resources ($config, $models);
 	    $this->load->helper ('file');
 	}
@@ -21,7 +21,7 @@ class Login extends MX_Controller {
 	// For backward compatibility
 	public function logout () {
 		$this->session->sess_destroy ();
-		$redirect = site_url ('login/user/index');		
+		$redirect = site_url ('login/user/index');
 		redirect ($redirect);
 	}
 

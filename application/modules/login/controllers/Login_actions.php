@@ -18,106 +18,67 @@ class Login_actions extends MX_Controller {
 		$this->form_validation->set_rules ('access_code', 'Access Code', 'required|trim');
 		
 		if ($this->form_validation->run () == true) {
+			$captcha = $this->input->post('captcha');
+			$captcha_key = $this->session->userdata('captcha_key');
 			
-			$response = $this->login_model->validate_login ($admin_login);
-
-			if ($response['status'] == LOGIN_SUCCESSFUL) {
-				$redirect = $this->session->userdata ('dashboard');
+		
+		
+			if($captcha != $captcha_key['word'] && $captcha_key['ip_address'] == $_SERVER['REMOTE_ADDR']){
 				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array(
-					'status'=>true, 
-					'message'=>_AT_TEXT ('LOGIN_SUCCESSFUL', 'msg'), 
-					'user_token'=>$this->session->userdata ('user_token'),
-					'redirect'=>site_url($redirect),
-				)));
-			} else if ($response['status'] == INVALID_CREDENTIALS) {
-				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_CREDENTIALS', 'msg'))));
-			} else if ($response['status'] == ACCOUNT_DISABLED) {
-				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('ACCOUNT_DISABLED', 'msg'))));
-			} else if ($response['status'] == MAX_ATTEMPTS_REACHED) {
-				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('MAX_ATTEMPTS_REACHED', 'msg'))));
-			} else if ($response['status'] == INVALID_PASSWORD) {
-				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_PASSWORD', 'msg'))));
-			} else if ($response['status'] == INVALID_USERNAME) {
-				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_USERNAME', 'msg'))));
-			} else {
-				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('LOGIN_ERROR', 'msg'))));
+				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_CAPTCHA', 'msg'))));
+				
 			}
+			else
+			{
+
+				$response = $this->login_model->validate_login ($admin_login);
+
+				if ($response['status'] == LOGIN_SUCCESSFUL) {
+					$redirect = $this->session->userdata ('dashboard');
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array(
+						'status'=>true, 
+						'message'=>_AT_TEXT ('LOGIN_SUCCESSFUL', 'msg'), 
+						'user_token'=>$this->session->userdata ('user_token'),
+						'redirect'=>site_url($redirect),
+					)));
+				} else if ($response['status'] == INVALID_CREDENTIALS) {
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_CREDENTIALS', 'msg'))));
+				} else if ($response['status'] == ACCOUNT_DISABLED) {
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('ACCOUNT_DISABLED', 'msg'))));
+				} else if ($response['status'] == MAX_ATTEMPTS_REACHED) {
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('MAX_ATTEMPTS_REACHED', 'msg'))));
+				} else if ($response['status'] == INVALID_PASSWORD) {
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_PASSWORD', 'msg'))));
+				} else if ($response['status'] == INVALID_USERNAME) {
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_USERNAME', 'msg'))));
+				} else {
+					unset($_SESSION['captcha_key']);
+					unlink(base_url().'contents/captcha/'.$captcha_key['time'].'.jpg');
+					$this->output->set_content_type("application/json");
+					$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('LOGIN_ERROR', 'msg'))));
+					
+				}
+			}
+			
+			
 		} else {
 			$this->output->set_content_type("application/json");
 			$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('VALIDATION_ERROR', 'msg') )));			
 		}
 	}
 	
-	/*
-	 *
-	 Register Page Functions
-	 *
-	 */
-
-	// Validate USer Mobile	
-	public function validate_user_mobile ($name='', $mobile='') {
-		$status = false;
-
-		// $name = $this->input->post ('first_name');
-		if ( !isset ($name) || empty ($name) || $name == "") {
-			$message = 'Name is required';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
-		} else if ( empty ($mobile) || $mobile == "") {
-			$message = 'Mobile number is required';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
-		} else if (filter_var( $mobile, FILTER_VALIDATE_INT) == false) {
-			$message = 'Check mobile number and try again';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
-		} else if (strlen ($mobile) <> 10) {
-			$message = 'Mobile number must contain 10 digits';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message)));
-		} else {
-			
-			$this->login_model->send_register_otp ($mobile);
-			$status = true;
-			$message = 'An OTP has been sent on your mobile, valid for 30 minutes.';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'message'=>$message )));
-		}
-	}
-
-
-	public function validate_otp ($mobile=0, $otp=0) {
-		$status = false;
-		$get_otp = $this->session->userdata ('register_otp');
-		if ($get_otp['valid'] < time ()) {
-			$message = 'This OTP has expired. Please try again';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message )));
-		} else if ($get_otp['mobile'] == $mobile && $get_otp['otp'] == $otp) {
-			$status = true;
-			$message = 'OTP validated successfully';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'message'=>$message )));
-		} else {
-			$status = false;
-			$message = 'Invalid OTP';
-			$this->output->set_content_type("application/json");
-			$this->output->set_output(json_encode(array('status'=>$status, 'error'=>$message )));
-		}
-	}
 
 	public function register () {
 		$this->form_validation->set_rules('first_name', 'Name', 'required|trim', ['required'=>'Please enter Your Name.']); 
-		$this->form_validation->set_rules('primary_contact', 'Primary Contact', 'required|is_natural|trim|max_length[14]');
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+		$this->form_validation->set_rules ('primary_contact', 'Primary Contact', 'required|is_natural|trim|max_length[14]');
 		$this->form_validation->set_rules('email', 'Email', 'valid_email|trim');
+		$this->form_validation->set_rules ('password', 'Password', 'required|min_length[8]');
 		$this->form_validation->set_rules('agree', 'Agree', 'required', ['required'=>'You must agree to the terms and conditions']); 
 		$this->form_validation->set_rules ('access_code', 'Access Code', 'required|trim', ['required'=>'Please enter your access code which you recieved from your institution']);
 		 
@@ -132,8 +93,17 @@ class Login_actions extends MX_Controller {
 			$coaching_sub = $this->coaching_model->get_coaching_subscription ($coaching_id);			
 			$max_users = $coaching_sub['max_users'];
 			$num_users = $this->users_model->count_all_users ($coaching_id);
+
+			$captcha = $this->input->post('captcha');
+			$captcha_key = $this->session->userdata('captcha_key');
+
+			if($captcha != $captcha_key['word'] && $captcha_key['ip_address'] == $_SERVER['REMOTE_ADDR']){
+				$this->output->set_content_type("application/json");
+				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_CAPTCHA', 'msg'))));
+				
+			}
 			
-			
+			else{
 			if (! $coaching) {
 				$this->output->set_content_type("application/json");
 				$this->output->set_output(json_encode(array('status'=>false, 'error'=>'You have provided wrong access code' )));
@@ -142,6 +112,8 @@ class Login_actions extends MX_Controller {
 				$this->output->set_output(json_encode(array('status'=>false, 'error'=>'Maximum user account limit for current subscription plan has been reached. Contact your coaching owner to upgrade their subscription plan.' )));
 			} else if ($this->users_model->coaching_contact_exists ($contact, $coaching_id) == true) {
 				// Check if already exists
+				unset($_SESSION['captcha_key']);
+					unlink(base_url().'contents/captcha/'.$captcha_key['time'].'.jpg');
 				$this->output->set_content_type("application/json");
 				$this->output->set_output(json_encode(array('status'=>false, 'error'=>'You already have an account with this mobile number. Try Sign-in instead' )));
 			} else {
@@ -217,9 +189,12 @@ class Login_actions extends MX_Controller {
 					$this->common_model->send_email ($to, $subject, $email_message);				
 				}
 
+				
 				$this->output->set_content_type("application/json");
 				$this->output->set_output(json_encode(array('status'=>true, 'message'=>$message, 'redirect'=>site_url('login/user/index?sub='.$ac)) ));
+				
 			}
+		}
 	    } else {
 			$this->output->set_content_type("application/json");
 			$this->output->set_output(json_encode(array('status'=>false, 'error'=>validation_errors() )));

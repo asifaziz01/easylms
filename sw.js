@@ -15,14 +15,14 @@ const notifyIcon = `${rootPath}themes/dore/assets/img/touch/app-icon192.png`;
 const notifyBadge = `${rootPath}themes/dore/assets/img/notification-badge.png`;
 
 const staticAssets = [
-	rootPath,
-	rootPath + 'themes/dore/assests/css/',
-	rootPath + 'themes/dore/assests/js/',
-	rootPath + 'themes/dore/assests/img/',
+	appPath,
+	appPath + 'themes/dore/assests/css/',
+	appPath + 'themes/dore/assests/js/',
+	appPath + 'themes/dore/assests/img/',
 ];
 
 self.addEventListener ('install', async event => {
-	const cache = await caches.open ('EasyCoaching-V1');
+	const cache = await caches.open ('EasyCoachingV1');
 	cache.addAll (staticAssets);
 });
 

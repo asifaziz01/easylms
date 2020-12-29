@@ -802,7 +802,7 @@ class Tests extends MX_Controller {
 		$this->load->view('tests/print_test', $data);
 		$this->load->view(INCLUDE_PATH . 'footer', $data);
 	}
-	public function answer_sheet ($course_id=0, $test_id ) { 
+	public function answer_sheet ($course_id=0, $test_id=0 ) { 
 		$data['course_id'] 	= $course_id;
 		$data['test_id'] 		= $test_id;
 		
@@ -833,6 +833,21 @@ class Tests extends MX_Controller {
 
 		$this->load->view(INCLUDE_PATH  . 'header', $data);
 		$this->load->view('tests/coaching_test_plans', $data);
+		$this->load->view(INCLUDE_PATH  . 'footer', $data);
+
+	}
+
+	public function upload_questions ($coaching_id=0, $course_id=0, $test_id=0) {
+
+		$data['bc'] = array ('Tests'=>'coaching/tests/index/'.$coaching_id.'/'.$course_id);
+		$data['page_title'] = 'Upload Test';
+		$data['coaching_id'] = $coaching_id;
+		$data['course_id'] = $course_id;
+		$data['test_id'] = $test_id;
+		
+
+		$this->load->view(INCLUDE_PATH  . 'header', $data);
+		$this->load->view('tests/upload_questions2', $data);
 		$this->load->view(INCLUDE_PATH  . 'footer', $data);
 
 	}

@@ -350,7 +350,7 @@ class Tests_model extends CI_Model {
 		return $this->db->update('coaching_tests', $update); 
 	}
 	
-	public function unfinaliseTest($coaching_id=0, $test_id) {
+	public function unfinaliseTest($coaching_id=0, $test_id=0) {
 		$this->db->where ('coaching_id', $coaching_id);
 		$this->db->where('test_id', $test_id);  
 		return $this->db->update('coaching_tests', array ('finalized'=>0)); 

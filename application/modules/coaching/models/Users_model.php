@@ -765,7 +765,7 @@ class Users_model extends CI_Model {
 	/*
 	EXPORT USERS
 	*/
-	public function upload_users_csv ($coaching_id=0, $batch_id=0, $data) {
+	public function upload_users_csv ($coaching_id=0, $batch_id=0, $data=[]) {
 
 		$data['coaching_id']  	= $coaching_id;
 		$data['link_send_time']	= time();

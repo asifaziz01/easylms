@@ -140,7 +140,7 @@ class Courses_model extends CI_Model {
 		}
 		return $courses;
 	}
-	public function member_courses_by_type($type = COURSE_ENROLMENT_DIRECT, $coaching_id, $cat_id=0, $status = CATEGORY_STATUS_ALL){
+	public function member_courses_by_type($type = COURSE_ENROLMENT_DIRECT, $coaching_id=0, $cat_id=0, $status = CATEGORY_STATUS_ALL){
         $this->db->select(
         	array(
         		'coaching_courses.*',
@@ -175,7 +175,8 @@ class Courses_model extends CI_Model {
 		$sql = $this->db->get('coaching_course_category');
 		return $sql->row_array();
 	}
-	public function get_course_by_id ($course_id) {
+
+	public function get_course_by_id ($course_id=0) {
 		$this->db->where('course_id', $course_id);
 		$this->db->order_by ('created_on', 'DESC');
 		$sql = $this->db->get('coaching_courses');
@@ -297,7 +298,7 @@ class Courses_model extends CI_Model {
 		$sql = $this->db->get ('members');
 		return $sql->result_array();
 	}
-	public function search_teachers_assigned ($coaching_id=0, $data) {
+	public function search_teachers_assigned ($coaching_id=0, $data=[]) {
 		$search = $this->input->post ('search_text');
 		$status = $this->input->post('filter_status');
 		$this->db->select('member_id');
@@ -332,7 +333,7 @@ class Courses_model extends CI_Model {
 		$sql = $this->db->get ('members');
 		return $sql->result_array();
 	}
-	public function search_teachers_not_assigned ($coaching_id=0, $data) {
+	public function search_teachers_not_assigned ($coaching_id=0, $data=[]) {
 		$search = $this->input->post ('search_text');
 		$status = $this->input->post('filter_status');
 		$this->db->select('member_id');
@@ -354,7 +355,7 @@ class Courses_model extends CI_Model {
 		$sql = $this->db->get ('members');
 		return $sql->result_array();
 	}
-	public function add_teachers_assignment($coaching_id, $course_id){
+	public function add_teachers_assignment($coaching_id=0, $course_id=0){
 		$users = $this->input->post('users');
 		$add_count = 0;
 		$user_count = count($users);
@@ -370,7 +371,7 @@ class Courses_model extends CI_Model {
 		}
 		return $returnValue;
 	}
-	public function add_teacher_assignment($coaching_id, $course_id, $member_id, $status=1){
+	public function add_teacher_assignment($coaching_id=0, $course_id=0, $member_id=0, $status=1){
 		$data['course_id'] = $course_id;
 		$data['coaching_id'] = $coaching_id;
 		$data['member_id'] = $member_id;
@@ -386,7 +387,7 @@ class Courses_model extends CI_Model {
 		return $returnValue;
 	}
 
-	public function remove_teachers_assignment($coaching_id, $course_id){
+	public function remove_teachers_assignment($coaching_id=0, $course_id=0){
 		$users = $this->input->post('users');
 		$remove_count = 0;
 		$users_count = count($users);
@@ -403,7 +404,7 @@ class Courses_model extends CI_Model {
 		return $returnValue;
 	}
 
-	public function remove_teacher_assignment($coaching_id, $course_id, $member_id){
+	public function remove_teacher_assignment($coaching_id=0, $course_id=0, $member_id=0){
 		$this->db->where ('course_id', $course_id);
 		$this->db->where ('coaching_id', $coaching_id);
 		$this->db->where ('member_id', $member_id);
