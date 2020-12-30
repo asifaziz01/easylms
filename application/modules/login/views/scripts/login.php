@@ -32,4 +32,21 @@
 			loaderSelector.style.display = 'none';
 		});
 	});	
+
+	$(document).ready( function () {
+  		var base_url = '<?php echo base_url(); ?>';
+		$('.reload-captcha').click(function(event){
+			event.preventDefault();
+			$.ajax({
+
+				url:base_url+'login/user/refresh_captcha',
+				dataType: "text",  
+				cache:false,
+				success:function(data){
+					$('.captcha-img').replaceWith(data);
+					
+				}
+			});            
+		});
+	});
 </script>

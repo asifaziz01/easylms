@@ -49,7 +49,7 @@ class User extends MX_Controller {
 				'word'          => '',
 				'img_path'      => './contents/captcha/',
 				'img_url'       => base_url().'/contents/captcha/',
-				'img_width'     => '100',
+				'img_width'     => '125',
 				'img_height'    => 30,
 				'word_length'   => 6,
 				'font_size'     => 16,
@@ -82,13 +82,50 @@ class User extends MX_Controller {
 		$this->load->view (INCLUDE_PATH . 'header', $data);
 		$this->load->view ('login', $data);
 		$this->load->view (INCLUDE_PATH . 'footer', $data);
-    }	
+	}
+	
+	/* Refresh captcha */
+	
+	public function refresh_captcha(){
+    // Captcha configuration
+		$vals = array(
+					'word'          => '',
+					'img_path'      => './contents/captcha/',
+					'img_url'       => base_url().'/contents/captcha/',
+					'img_width'     => '125',
+					'img_height'    => 30,
+					'word_length'   => 6,
+					'font_size'     => 16,
+					'img_id'        => 'Imageid',
+					'pool'          => '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+					
+
+					// White background and border, black text and red grid
+					'colors'        => array(
+							'background' => array(20, 83, 136),
+							'border' => array(255, 255, 255),
+							'text' => array(255,255,255),
+							'grid' => array(20, 83, 136)
+					)
+			);
+		$captcha = create_captcha($vals);
+		
+
+		$cap = create_captcha($vals);
+			$ip_address = $_SERVER['REMOTE_ADDR'];
+			$captcha_key = array('time' => $cap['time'], 'ip_address' => $ip_address, 'word' => $cap['word']);
+			$this->session->unset_userdata('captcha_key');
+			$this->session->set_userdata('captcha_key', $captcha_key);
+			$data['captcha'] = $cap['image'];
+
+
+		// Display captcha image
+		// echo $cap['image'];
+		$this->load->view ('refresh_captcha', $data);
+	}
 	
 	/* Register Page */
 	public function register () {
-
-
-		
 
 		// Default settings
 		$access_code = '';
@@ -133,7 +170,7 @@ class User extends MX_Controller {
 				'word'          => '',
 				'img_path'      => './contents/captcha/',
 				'img_url'       => base_url().'/contents/captcha/',
-				'img_width'     => '100',
+				'img_width'     => '125',
 				'img_height'    => 30,
 				'word_length'   => 6,
 				'font_size'     => 16,

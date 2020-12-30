@@ -61,10 +61,15 @@
                      <div class="col-6">
                         <input type="text" id="captcha" name="captcha" style="height:30px" class="form-control" required>
                      </div>
-                     <div class="col-6 img-responsive pl-2 mx-0">
-                        <?php echo $captcha; ?>
+                     <div id="captImg" class="col-6 captcha-img img-responsive pl-2 mx-0">
+                            <?php echo $captcha; ?>
+                        </div>
+                    
                      </div>
-                     </div>
+                     <p class="refresh-captcha pt-2">
+                     Click here for <a href="#" class="reload-captcha refreshCaptcha" ><i class="iconsminds-repeat-2" style="color:#0f3d64; font-weight:bold;"></i></a> captcha.
+                     </p>
+                     
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <button class="btn btn-primary btn-lg btn-shadow" type="submit">LOGIN</button>
