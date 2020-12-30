@@ -47,7 +47,7 @@ class User extends MX_Controller {
 		$vals = array(
 				'img_path'      => './contents/captcha/',
 				'img_url'       => base_url().'contents/captcha/',
-				'img_width'     => '150',
+				'img_width'     => '100',
 				'img_height'    => 30,
 				'word_length'   => 6,
 				'font_size'     => 16,
@@ -121,8 +121,8 @@ class User extends MX_Controller {
 		$vals = array(
 				'word'          => '',
 				'img_path'      => './contents/captcha/',
-				'img_url'       => base_url().'/contents/captcha/',
-				'img_width'     => '150',
+				'img_url'       => base_url().'contents/captcha/',
+				'img_width'     => '100',
 				'img_height'    => 30,
 				'word_length'   => 6,
 				'font_size'     => 16,
