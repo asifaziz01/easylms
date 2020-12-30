@@ -644,14 +644,40 @@ class Tests_actions extends MX_Controller {
 			$errors = $this->upload->display_errors();
 			$this->output->set_content_type("application/json");
 			$this->output->set_output(json_encode(array('status'=>false, 'error'=>$errors)));
-		} else {		
+		} else {
 			$upload_data = $this->upload->data();
 			$file_path = base_url ($upload_dir . $upload_data['file_name']);
-			$file = file_get_contents($file_path);
+			$file = file ($file_path);
+
+			if ($upload_data['file_ext'] == '.txt') {
+				$stack = $this->tests_model->upload_from_text ($file);
+			} else if ($upload_data['file_ext'] == '.docx') {
+				$stack = $this->tests_model->upload_from_word ($file);
+			}
+
+			//print_r ($stack);
+
+			// Process the stack
+			$data['stack'] = $stack;
+			$data['coaching_id'] = $coaching_id;
+			$data['course_id'] = $course_id;
+			$data['test_id'] = $test_id;
+			$this->load->view(INCLUDE_PATH  . 'header', $data);
+			$this->load->view ('tests/inc/template_upload_question', $data);
+			$this->load->view(INCLUDE_PATH  . 'footer', $data);
 		}
-
-
 	}
 
+	public function save_upload_questions($coaching_id=0, $course_id=0, $test_id=0) {
+		$this->form_validation->set_rules ('headings[]', 'Question Headings', 'required|trim', ['required'=>'Some "Question Heading" fields are missing/empty']);
+		$this->form_validation->set_rules ('questions[]', 'Questions', 'required|trim', ['required'=>'Some "Question" fields are missing/empty']);
+		$this->form_validation->set_rules ('choices[]', 'Answer Choices', 'required', ['required'=>'Some "Answer" fields are missing/empty']);
+		$this->form_validation->set_rules ('answers[]', 'Answers', 'required', ['required'=>'Some "Corect Answer" fields are missing']);
 
+		if ($this->form_validation->run () == true) {
+			$response = $this->tests_model->save_question ($coaching_id, $course_id, $test_id);
+		} else {
+			echo validation_errors ();
+		}
+	}
 }

@@ -821,6 +821,7 @@ class Tests extends MX_Controller {
 		$this->load->view(INCLUDE_PATH . 'header', $data);
 		$this->load->view('tests/answer_sheet', $data);
 	}
+	
 	public function coaching_test_plans ($coaching_id=0, $course_id=0) {
 
 		$data['bc'] = array ('Manage'=>'coaching/courses/manage/'.$coaching_id.'/'.$course_id);
@@ -843,8 +844,7 @@ class Tests extends MX_Controller {
 		$data['page_title'] = 'Upload Test';
 		$data['coaching_id'] = $coaching_id;
 		$data['course_id'] = $course_id;
-		$data['test_id'] = $test_id;
-		
+		$data['test_id'] = $test_id;		
 
 		$this->load->view(INCLUDE_PATH  . 'header', $data);
 		$this->load->view('tests/upload_questions2', $data);

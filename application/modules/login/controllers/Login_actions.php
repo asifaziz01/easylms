@@ -16,17 +16,16 @@ class Login_actions extends MX_Controller {
 		$this->form_validation->set_rules ('username', 'Username', 'required|trim');
 		$this->form_validation->set_rules ('password', 'Password', 'required|trim');
 		$this->form_validation->set_rules ('access_code', 'Access Code', 'required|trim');
+		// $this->form_validation->set_rules ('captcha', 'Captcha', 'required|trim');
 		
 		if ($this->form_validation->run () == true) {
 			$captcha = $this->input->post('captcha');
 			$captcha_key = $this->session->userdata('captcha_key');
 			if($captcha != $captcha_key['word'] && $captcha_key['ip_address'] == $_SERVER['REMOTE_ADDR']){
+
 				$this->output->set_content_type("application/json");
-				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_CAPTCHA', 'msg'))));
-				
-			}
-			else
-			{
+				$this->output->set_output(json_encode(array('status'=>false, 'error'=>_AT_TEXT ('INVALID_CAPTCHA', 'msg'))));				
+			} else {
 
 				$response = $this->login_model->validate_login ($admin_login);
 

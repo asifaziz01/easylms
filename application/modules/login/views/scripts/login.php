@@ -1,4 +1,20 @@
 <script>
+$(document).ready( function () {
+  		var base_url = '<?php echo base_url(); ?>';
+		$('.reload-captcha').click(function(event){
+			event.preventDefault();
+			$.ajax({
+
+				url:base_url+'login/user/refresh_captcha',
+				dataType: "text",  
+				cache:false,
+				success:function(data){
+					$('.captcha-img').replaceWith(data);
+					
+				}
+			});            
+		});
+	});
 	const loaderSelector = document.getElementById('loader');
 	const formSelector = document.getElementById('login-form');
 	const errorDiv = document.getElementById('error');
@@ -33,20 +49,5 @@
 		});
 	});	
 
-	$(document).ready( function () {
-  		var base_url = '<?php echo base_url(); ?>';
-		$('.reload-captcha').click(function(event){
-			event.preventDefault();
-			$.ajax({
-
-				url:base_url+'login/user/refresh_captcha',
-				dataType: "text",  
-				cache:false,
-				success:function(data){
-					$('.captcha-img').replaceWith(data);
-					
-				}
-			});            
-		});
-	});
+	
 </script>

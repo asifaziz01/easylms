@@ -17,7 +17,7 @@
 							<i class="simple-icon-plus heading-icon"></i>
 	        	            <span class="align-middle d-inline-block">Add Questions</span>
 						</a>
-						<a class="list-item-heading mb-0 truncate w-100 mt-0 d-inline-block" href="<?php echo site_url ('coaching/tests/upload_test_questions/'.$coaching_id.'/'.$course_id.'/'.$test_id); ?>" >
+						<a class="list-item-heading mb-0 truncate w-100 mt-0 d-inline-block" href="<?php echo site_url ('coaching/tests/upload_questions/'.$coaching_id.'/'.$course_id.'/'.$test_id); ?>" >
 							<i class="simple-icon-plus heading-icon"></i>
 		                    <span class="align-middle d-inline-block">Upload Questions</span>
 						</a>
