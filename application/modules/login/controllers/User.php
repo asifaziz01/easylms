@@ -44,11 +44,9 @@ class User extends MX_Controller {
 		$data['found'] = $found;
 		$data['coaching'] = $coaching;
 
-
 		$vals = array(
-				'word'          => '',
 				'img_path'      => './contents/captcha/',
-				'img_url'       => base_url().'/contents/captcha/',
+				'img_url'       => base_url().'contents/captcha/',
 				'img_width'     => '150',
 				'img_height'    => 30,
 				'word_length'   => 6,
@@ -70,13 +68,7 @@ class User extends MX_Controller {
 		$ip_address = $_SERVER['REMOTE_ADDR'];
 		$captcha_key = array('time' => $cap['time'], 'ip_address' => $ip_address, 'word' => $cap['word']);
 		$this->session->set_userdata('captcha_key', $captcha_key);
-		$data['captcha'] = $cap['image'];
-		
-		
-		// $cap = create_captcha($vals);
-		// var_dump($cap);
-		
-
+		$data['captcha'] = $cap['image'];		
 		
 		$data['script'] = $this->load->view ('scripts/login', $data, true); 
 		$this->load->view (INCLUDE_PATH . 'header', $data);
@@ -85,10 +77,7 @@ class User extends MX_Controller {
     }	
 	
 	/* Register Page */
-	public function register () {
-
-
-		
+	public function register () {		
 
 		// Default settings
 		$access_code = '';

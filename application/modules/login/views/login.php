@@ -60,7 +60,7 @@
                      <div class="col-sm-5">
                         <input type="text" id="captcha" name="captcha" style="height:30px" class="form-control" required>
                      </div>
-                     <div class="col-sm-3 img-responsive">
+                     <div class="col-sm-3">
                         <?php echo $captcha; ?>
                      </div>
                     </div>

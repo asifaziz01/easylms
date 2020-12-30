@@ -1211,9 +1211,118 @@ class Tests_model extends CI_Model {
 		
 		$this->db->insert('coaching_test_answers', $data); 
 	}
+
 	public function mark_for_demo ($test_id=0, $data=0) {
 		$this->db->set ('for_demo', $data);
 		$this->db->where ('test_id', $test_id);
 		$this->db->update ('coaching_tests');
+	}
+
+	public function upload_from_text ($content='') {
+		// echo $content;
+		$heading_stack = [];
+		$question_stack = [];
+		$answer_stack = [];
+
+		$heading_count = 0;
+		$question_count = 0;
+		$answer_count = 0;
+
+		if ( ! empty ($content) ) {
+			foreach ($content as $line) {
+				//echo $line;
+				//echo br ();
+				if ( strlen ($line) > 0 ) {
+					//echo $line;
+					//echo '<br>';
+					// This is a question group
+					if ( preg_match ('/^#QH/', $line) == 1 ) {
+						// Got a new question heading
+						$heading_count++;
+						$heading 	= substr ($line, 4);
+						$heading_stack[$heading_count]['heading'] = $heading;
+						// Reset question count
+						$question_stack = [];
+						$answer_stack = [];
+						$question_count = 0;
+						$answer_count = 0;
+
+					} else if ( preg_match ('/^[\d]+[\.|\)]/', $line) == 1 ) {
+						// Got a main question 
+						$match =  preg_split ('/^[\d]+[\.|\)]/', $line, 0, PREG_SPLIT_NO_EMPTY );
+						$question = $match[0];
+						$question = htmlspecialchars(trim($question));
+						if ($heading_count == 0) {
+							$heading_count++;
+							$heading_stack[$heading_count]['heading'] = 'Add question heading';
+						}
+						// Reset answer choice
+						$answer_stack = [];
+						$answer_count = 0;
+
+						$question_count++;
+						//$question_stack[$question_count]['question'] = $question;
+						$heading_stack[$heading_count]['questions'][$question_count]['question'] = $question;
+
+					} else if ( preg_match ('/^[a-fA-F]+[\.|\)]/', $line) == 1) {
+						// Answer Choices
+						preg_match ('/^[a-fA-F]+[\.|\)]/', $line, $match );
+						// this is an answer choice
+						if ( ! empty ( $match )) {				
+							// answer text
+							$answer_choice = preg_split ('/^[a-fA-F]+[\.|\)]/', $line, 0, PREG_SPLIT_NO_EMPTY);
+							if ($question_count > 0) {
+								$answer_count++;
+								$answer_choice = htmlspecialchars(trim($answer_choice[0]));
+								//$answer_stack[$question_count]['choices'][$answer_count] = $answer_choice;
+								$heading_stack[$heading_count]['questions'][$question_count]['choices'][$answer_count] = $answer_choice;
+							}
+						}
+					} else if ( preg_match ('/^\*+[a-fA-F]+[\.|\)]/', $line) == 1) {
+						// Answer Choices
+						preg_match ('/^\*+[a-fA-F]+[\.|\)]/', $line, $match );
+						// this is an answer choice
+						if ( ! empty ( $match )) {
+							// answer text
+							$answer_choice = preg_split ('/^\*+[a-fA-F]+[\.|\)]/', $line, 0, PREG_SPLIT_NO_EMPTY);
+							if ($question_count > 0) {
+								$answer_count++;
+								$answer_choice = htmlspecialchars(trim($answer_choice[0]));
+								$heading_stack[$heading_count]['questions'][$question_count]['choices'][$answer_count] = $answer_choice;
+								$heading_stack[$heading_count]['questions'][$question_count]['answers'][$answer_count] = $answer_count;
+							}
+						}
+					} 
+				}
+			}
+		}
+
+
+
+		return $heading_stack;
+	}
+
+	public function save_question ($coaching_id=0, $course_id=0, $test_id=0) {
+		/*
+			$headings = $this->input->post('headings');
+			$questions = $this->input->post('questions');
+
+			if (! empty ($headings)) {
+				foreach ($headings as $heading) {
+					// insert heading
+					$parent_id = 0;
+					$['question'] = $heading;
+					$question_id = $this->tests_model->save_question ($data, $parent_id);
+					if (! empty($questions)) {
+						foreach ($questions as $question) {
+						// insert question
+
+						}
+					}
+
+				}
+			}
+		*/
+
 	}
 }

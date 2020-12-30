@@ -58,16 +58,16 @@
 					<div class="form-row">
 						<div class="form-group col-md-6 mb-3">
 							<?php echo form_label('Release Results', '', array('class'=>'control-label')); ?>
-							<div class="d-block">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
-									<label class="btn btn-primary default<?php echo ($results['release_result'] == RELEASE_EXAM_IMMEDIATELY)?' active':null; ?>" style="cursor:pointer;">
-										<input type="radio" name="release_result" value="<?php echo RELEASE_EXAM_IMMEDIATELY; ?>"<?php echo ($results['release_result'] == RELEASE_EXAM_IMMEDIATELY)?' checked':null; ?> /> Immediately
-									</label>
-									<label class="btn btn-primary default<?php echo ($results['release_result'] == RELEASE_EXAM_NEVER)?' active':null; ?>" style="cursor:pointer;">
-										<input type="radio" name="release_result" value="<?php echo RELEASE_EXAM_NEVER; ?>"<?php echo ($results['release_result'] == RELEASE_EXAM_NEVER)?' checked':null; ?> /> Manually
-									</label>
-								</div>
-							</div>
+							<div class="mb-4">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio1" class="custom-control-input" name="release_result" value="<?php echo RELEASE_EXAM_IMMEDIATELY; ?>" <?php if (! isset($results['release_result']) || $results['release_result'] == RELEASE_EXAM_IMMEDIATELY) echo 'checked="checked"'; ?> >
+                                    <label class="custom-control-label" for="customRadio1">Immediately after test submissions </label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="customRadio2" class="custom-control-input" name="release_result" value="<?php echo RELEASE_EXAM_NEVER; ?>" <?php if (isset($results['release_result']) && $results['release_result'] == RELEASE_EXAM_NEVER) echo 'checked="checked"'; ?>>
+                                    <label class="custom-control-label" for="customRadio2">Manually at a later date</label>
+                                </div>
+                            </div>
 						</div>
 					</div>
 					<p class="btn-toolbar border-top pt-3 mb-0">

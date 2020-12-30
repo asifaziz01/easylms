@@ -1,0 +1,22 @@
+#QH Answer the following questions
+1. What is the capital of India
+a. Lucknow
+b. Agra
+c. Mumbai
+*d. New Delhi
+
+2. What is the capital of UP
+a. Lucknow
+b. Agra
+c. Mumbai
+d. New Delhi
+
+3. the capital of MP is Agra
+a. True
+b. False
+
+
+4. the capital of MP is Agra
+a. True
+*b. False
+
