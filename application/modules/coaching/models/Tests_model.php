@@ -1302,27 +1302,85 @@ class Tests_model extends CI_Model {
 		return $heading_stack;
 	}
 
-	public function save_question ($coaching_id=0, $course_id=0, $test_id=0) {
-		/*
-			$headings = $this->input->post('headings');
-			$questions = $this->input->post('questions');
+	public function save_question ($coaching_id=0, $course_id=0, $test_id=0) { 
+		$headings = $this->input->post('headings');
+		$questions = $this->input->post('questions');
+		$types = $this->input->post('types');
+		$marks = $this->input->post('marks');
+		$choices = $this->input->post ('choices');
+		$answers = $this->input->post ('answers');
 
-			if (! empty ($headings)) {
-				foreach ($headings as $heading) {
-					// insert heading
-					$parent_id = 0;
-					$['question'] = $heading;
-					$question_id = $this->tests_model->save_question ($data, $parent_id);
-					if (! empty($questions)) {
-						foreach ($questions as $question) {
-						// insert question
+		if (! empty ($headings)) {
+			foreach ($headings as $heading) {
 
+				// insert question heading
+				$h_data = [];
+				$parent_id 						= 0;
+				$h_data['parent_id'] 			= $parent_id;
+				$h_data['coaching_id'] 			= $coaching_id;
+				$h_data['course_id'] 			= $course_id;
+				$h_data['chapter_id'] 			= 0;
+				$h_data['question'] 			= $heading;
+				$h_data['type'] 				= 0;
+				$h_data['marks'] 				= 0;
+				$h_data['time'] 				= 0;
+				$h_data['negmarks'] 			= 0;
+				$h_data['created_by'] 			= $this->session->userdata ('member_id');
+				$h_data['creation_date'] 		= time ();
+				$sql = $this->db->insert ('coaching_questions', $h_data);
+				$parent_id = $this->db->insert_id ();
+				if (! empty($questions)) {
+					foreach ($questions as $num=>$question) {
+						// insert main question
+						$data = [];
+						$type 						= $types[$num];
+						$mark 						= $marks[$num];
+						$data['parent_id'] 			= $parent_id;
+						$data['coaching_id'] 		= $coaching_id;
+						$data['course_id'] 			= $course_id;
+						$data['question'] 			= $question;
+						for ($i=1; $i<=QB_NUM_ANSWER_CHOICES; $i++) {
+							if (isset ($choices[$num][$i])) {
+								$data['choice_'.$i] 	= $choices[$num][$i]; 
+							} else {
+								$data['choice_'.$i] 	= '';	
+							}
+							if (isset ($answers[$num][$i]) && $type == QUESTION_MCMC && $answers[$num][$i] == $i) {
+								// For MCMC questions
+								$data['answer_'.$i] = $i;
+							} else if (isset ($answers[$num]) && $type == QUESTION_MCSC && $answers[$num] == $i) {
+								// For MCSC questions
+								$data['answer_'.$i] = $i;
+							} else if (isset ($answers[$num]) && $answers[$num] == $i) {
+								// For Other questions
+								$data['answer_'.$i] = $i;
+							} else {
+								// For long answer type questions
+								$data['answer_'.$i] = 0;
+							}
+							$data['option_'.$i] 	= '';
 						}
-					}
+						$data['type'] 				= $type;
+						$data['marks'] 				= $mark;
+						$data['chapter_id'] 		= 0;
+						$data['time'] 				= 0;
+						$data['negmarks'] 			= 0;
+						$data['created_by'] 		= $this->session->userdata ('member_id');
+						$data['creation_date'] 		= time ();
+						$sql = $this->db->insert ('coaching_questions', $data);
+						$question_id = $this->db->insert_id ();
 
+						// Add question to test
+						$test_data = [];
+						$test_data['coaching_id'] = $coaching_id;
+						$test_data['test_id'] = $test_id;
+						$test_data['question_id'] = $question_id;
+						$sql = $this->db->insert ('coaching_test_questions', $test_data);
+					}
 				}
+
 			}
-		*/
+		}
 
 	}
 }

@@ -840,7 +840,7 @@ class Tests extends MX_Controller {
 
 	public function upload_questions ($coaching_id=0, $course_id=0, $test_id=0) {
 
-		$data['bc'] = array ('Tests'=>'coaching/tests/index/'.$coaching_id.'/'.$course_id);
+		$data['bc'] = array ('Tests'=>'coaching/tests/manage/'.$coaching_id.'/'.$course_id.'/'.$test_id);
 		$data['page_title'] = 'Upload Test';
 		$data['coaching_id'] = $coaching_id;
 		$data['course_id'] = $course_id;

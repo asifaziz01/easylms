@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-12 list">
-		<?php echo form_open ('coaching/tests_actions/save_upload_questions/'.$coaching_id.'/'.$course_id.'/'.$test_id, ['class'=>'form-vertical']); ?>
+		<?php echo form_open ('coaching/tests_actions/save_upload_questions/'.$coaching_id.'/'.$course_id.'/'.$test_id, ['class'=>'form-vertical validation-form']); ?>
 			<?php
 			$heading_count = 1;
 			$marks = 1;
@@ -60,7 +60,7 @@
 									if none of the above conditions match, mark question as faulty
 								*/
 
-								$type = 0;
+								$type = QUESTION_LONG;
 								$has_error = false;
 								$err_msg = '';
 								$type_stack = [0=>'Error', QUESTION_LONG=>'Long Answer', QUESTION_MCSC=>'Multi Choice', QUESTION_MCMC=>'Multi Correct', QUESTION_TF=>'True/False'];
@@ -110,7 +110,7 @@
 			                                	<input type="number" name="marks[<?php echo $question_count; ?>]" value="<?php echo $marks;?>" class="form-control" min="1"> <?php echo ' marks'; ?>
 			                                </p>
 			                                <div class="w-10 w-xs-100">
-			                                	<input type="hidden" name="type[<?php echo $question_count; ?>]" value="<?php echo $type;?>"> 
+			                                	<input type="hidden" name="types[<?php echo $question_count; ?>]" value="<?php echo $type;?>"> 
 
 			                                    <span class="badge badge-pill <?php if ($has_error == true) echo 'badge-danger'; else echo 'badge-secondary'; ?>">
 			                                    	<?php echo $type_stack[$type]; ?>
@@ -162,8 +162,8 @@
 			<p class="mx-auto text-danger text-center">
 				<?php if ($has_error == true) echo 'Errors have been detected in some questions. You can either fix the errors as per comment or re-upload questions in correct format'; ?>					
 			</p>
-			<input type="submit" name="submit" value="Save Questions" class="btn btn-primary" disabled>
+			<input type="submit" name="submit" value="Save Questions" class="btn btn-primary" >
 		</div>
 		<?php echo form_close (); ?>
 	</div>
-</div>
+</div> 

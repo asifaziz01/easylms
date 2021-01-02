@@ -652,7 +652,7 @@ class Tests_actions extends MX_Controller {
 			if ($upload_data['file_ext'] == '.txt') {
 				$stack = $this->tests_model->upload_from_text ($file);
 			} else if ($upload_data['file_ext'] == '.docx') {
-				$stack = $this->tests_model->upload_from_word ($file);
+				//$stack = $this->tests_model->upload_from_word ($file);
 			}
 
 			//print_r ($stack);
@@ -671,12 +671,28 @@ class Tests_actions extends MX_Controller {
 	public function save_upload_questions($coaching_id=0, $course_id=0, $test_id=0) {
 		$this->form_validation->set_rules ('headings[]', 'Question Headings', 'required|trim', ['required'=>'Some "Question Heading" fields are missing/empty']);
 		$this->form_validation->set_rules ('questions[]', 'Questions', 'required|trim', ['required'=>'Some "Question" fields are missing/empty']);
-		$this->form_validation->set_rules ('choices[]', 'Answer Choices', 'required', ['required'=>'Some "Answer" fields are missing/empty']);
 		$this->form_validation->set_rules ('answers[]', 'Answers', 'required', ['required'=>'Some "Corect Answer" fields are missing']);
 
-		if ($this->form_validation->run () == true) {
+		$questions = $this->input->post ('questions');
+		$types = $this->input->post ('types');
+		if (! empty ($questions)) {
+			$num_questions = count ($questions);
+			for ($i=1; $i<=$num_questions; $i++) {
+				if ($types[$i] <> QUESTION_LONG) {
+					$this->form_validation->set_rules ('answers['.$i.']', 'Answers', 'required', ['required'=>'Select a "Correct Answer" for Q'.$i]);
+				}
+			}
+		}
+
+		if ($this->form_validation->run () == true) { 
 			$response = $this->tests_model->save_question ($coaching_id, $course_id, $test_id);
+			$this->message->set ('Questions uploaded successfully', 'success', true);
+			redirect ('coaching/tests/questions/'.$coaching_id.'/'.$course_id.'/'.$test_id);
+	        //$this->output->set_content_type("application/json");
+	        //$this->output->set_output(json_encode(array('status'=>true, 'message'=>'Questions uploaded successfully', 'redirect'=>site_url ('coaching/tests/preview_test/'.$coaching_id.'/'.$course_id.'/'.$test_id))));
 		} else {
+	        //$this->output->set_content_type("application/json");
+	        //$this->output->set_output(json_encode(array('status'=>false, 'error'=>validation_errors ())));
 			echo validation_errors ();
 		}
 	}
