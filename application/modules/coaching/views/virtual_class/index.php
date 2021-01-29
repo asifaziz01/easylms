@@ -37,17 +37,17 @@
 								?>
 							</p>
 							<hr>
-							<div class="btn-group">
+							<div class="">
 								<?php 
 								$member_id = $this->session->userdata ('member_id');
 								if ($row['running'] == 'true') {
 									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-success ']);
 								} else {
-									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-outline-info ']);
+									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-outline-primary ']);
 								}
-								echo anchor ('coaching/virtual_class/participants/'.$coaching_id.'/'.$row['class_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-users"></i> Participants', ['class'=>'btn btn-outline-info']); 
-								echo anchor ('coaching/virtual_class/meeting_logs/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-file"></i> Class Logs', ['class'=>'btn btn-outline-info ']);
-								//echo anchor ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$row['meeting_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-outline-dark']); 
+								echo anchor ('coaching/virtual_class/participants/'.$coaching_id.'/'.$row['class_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-users"></i> Participants', ['class'=>'btn btn-outline-primary']); 
+								echo anchor ('coaching/virtual_class/meeting_logs/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-file"></i> Class Logs', ['class'=>'btn btn-outline-primary ']);
+								echo anchor ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$row['meeting_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-outline-info']); 
 								if ($this->session->userdata ('role_id') == USER_ROLE_TEACHER) {
 								} else {
 									?>
