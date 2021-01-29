@@ -223,7 +223,7 @@ class Virtual_class extends MX_Controller {
         $this->load->view(INCLUDE_PATH . 'footer', $data);		
 	}
 
-	public function recordings ($coaching_id=0, $class_id=0, $meeting_id=0) {		
+	public function recordings ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {		
 
 		$api_setting = $this->virtual_class_model->get_api_settings ();
 		$data['toolbar_buttons'] = $this->toolbar_buttons;
@@ -263,7 +263,7 @@ class Virtual_class extends MX_Controller {
 		$data['class'] 			= $class;
 		$data['meeting_id'] 	= $meeting_id;
 		$data['page_title'] 	= 'Recordings';
-		$data['bc'] = array('Classrooms'=>'coaching/virtual_class/index/'.$coaching_id);
+		$data['bc'] = array('Classrooms'=>'coaching/virtual_class/index/'.$coaching_id.'/'.$course_id.'/'.$batch_id);
 
         $this->load->view(INCLUDE_PATH . 'header', $data);
         $this->load->view('virtual_class/recordings', $data);
