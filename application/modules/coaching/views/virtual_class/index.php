@@ -41,18 +41,20 @@
 								<?php 
 								$member_id = $this->session->userdata ('member_id');
 								if ($row['running'] == 'true') {
-									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-success ']);
+									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-success btn-xs mb-1 mr-1']);
 								} else {
-									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-outline-primary ']);
+									echo anchor ('coaching/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-plus"></i> Start Class', ['class'=>'btn btn-outline-primary btn-xs mb-1 mr-1']);
 								}
-								echo anchor ('coaching/virtual_class/participants/'.$coaching_id.'/'.$row['class_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-users"></i> Participants', ['class'=>'btn btn-outline-primary']); 
-								echo anchor ('coaching/virtual_class/meeting_logs/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-file"></i> Class Logs', ['class'=>'btn btn-outline-primary ']);
-								
+
+								echo anchor ('coaching/virtual_class/participants/'.$coaching_id.'/'.$row['class_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-users"></i> Participants', ['class'=>'btn btn-outline-primary btn-xs mb-1 mr-1']); 
+
+								//echo anchor ('coaching/virtual_class/meeting_logs/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-file"></i> Class Logs', ['class'=>'btn btn-outline-primary btn-xs mb-1 mr-1']);
+
 								echo anchor ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$row['meeting_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-outline-info']); 
 								if ($this->session->userdata ('role_id') == USER_ROLE_TEACHER) {
 								} else {
 									?>
-									<a onclick="show_confirm ('Delete this virtual classroom?', '<?php echo site_url ('coaching/virtual_class_actions/delete_class/'.$coaching_id.'/'.$row['class_id'].'/'.$course_id.'/'.$batch_id); ?>')" href="#" class="btn btn-danger ">Delete Classroom</a>
+									<a onclick="show_confirm ('Delete this virtual classroom?', '<?php echo site_url ('coaching/virtual_class_actions/delete_class/'.$coaching_id.'/'.$row['class_id'].'/'.$course_id.'/'.$batch_id); ?>')" href="#" class="btn btn-danger btn-xs mb-1 mr-1">Delete Classroom</a>
 									<?php
 								}
 								?>
