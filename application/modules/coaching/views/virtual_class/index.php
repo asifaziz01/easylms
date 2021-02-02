@@ -50,7 +50,7 @@
 
 								//echo anchor ('coaching/virtual_class/meeting_logs/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$course_id.'/'.$batch_id, '<i class="fa fa-file"></i> Class Logs', ['class'=>'btn btn-outline-primary btn-xs mb-1 mr-1']);
 
-								echo anchor ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$row['meeting_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-outline-info']); 
+								echo anchor ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$row['meeting_id'].'/'.$course_id.'/'.$batch_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-outline-info btn-xs mb-1 mr-1']); 
 								if ($this->session->userdata ('role_id') == USER_ROLE_TEACHER) {
 								} else {
 									?>

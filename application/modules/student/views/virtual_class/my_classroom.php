@@ -43,7 +43,7 @@
 									echo anchor ('student/virtual_class/join_class/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id.'/'.$row['course_id'].'/'.$row['batch_id'], '<i class="fa fa-plus"></i> Join ', ['class'=>'btn btn-outline-primary mr-1']);
 								}
 								if ($row['recording_for_students'] == 'true') {
-									//echo anchor ('student/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-link link-text-color mr-1']);
+									echo anchor ('student/virtual_class/recordings/'.$coaching_id.'/'.$row['class_id'].'/'.$member_id, '<i class="fa fa-play"></i> Recordings', ['class'=>'btn btn-link link-text-color mr-1']);
 								}
 								?>
                         </div>
