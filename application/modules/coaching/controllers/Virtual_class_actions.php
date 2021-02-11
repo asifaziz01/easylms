@@ -214,6 +214,9 @@ class Virtual_class_actions extends MX_Controller {
 		curl_close($ch);
 
 		$xml = simplexml_load_string($xml_response);
+
+		//print_r ($xml);
+
 		$response = $xml->returncode;
 		$result = [];
 		if ($response == 'SUCCESS') {
@@ -226,7 +229,15 @@ class Virtual_class_actions extends MX_Controller {
 				$duration_mm = round ($duration / 60,  2);
 
 				$url = $recording->playback->format->url;
-				
+				$preview = $recording->playback->format->preview;
+				$thumb_url = '';
+				if ( ! empty ($preview)) {
+					foreach ($preview->images->image as $i=>$image) {
+						if ($image && $image != '') {
+							$thumb_url = $image;
+						}
+					}		
+				}
 
 				$data['coaching_id'] = $coaching_id;
 				$data['class_id'] = $class_id;
@@ -240,7 +251,7 @@ class Virtual_class_actions extends MX_Controller {
 					$data['publish_date'] = $start_time/1000;
 					$data['duration'] = $duration;
 					$data['publish_url'] = $url;
-					//$data['thumb_url'] = $image;
+					$data['thumb_url'] = $thumb_url;
 					if ($recording->published == 'true') {
 						$data['status'] = 1;
 					} else {
@@ -281,8 +292,8 @@ class Virtual_class_actions extends MX_Controller {
     	}
     }
 
-    public function delete_recording ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
-    	//$this->virtual_class_model->delete_recording ($id);
+    public function delete_recording ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0, $id=0) {
+    	$this->virtual_class_model->delete_recording ($coaching_id, $class_id, $id);
     	$this->message->set ('Recording deleted successfully', 'success', true);
     	redirect ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$class_id.'/'.$meeting_id.'/'.$course_id.'/'.$batch_id);
 	}

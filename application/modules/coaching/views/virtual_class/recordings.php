@@ -9,7 +9,8 @@ if (! empty ($recordings)) {
 		$i = 1;
 		?>
 		<div class="card d-flex flex-row mb-3">
-            <div class="d-flex flex-grow-1 min-width-zero">				
+            <div class="d-flex flex-grow-1 min-width-zero">
+
                 <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
                     <a class="list-item-heading mb-0 truncate w-40 w-xs-100" href="<?php echo $record['publish_url']; ?>" target="_blank">
                         <?php 
@@ -78,7 +79,7 @@ if (! empty ($recordings)) {
 	                </button>
 	            </div>
 	            <div class="modal-body">
-	                <input type="" name="id" value="0" id="recordID">
+	                <input type="hidden" name="id" value="0" id="recordID">
 	                <input type="text" name="recording_name" value="" id="recordName">
 	            </div>
 	            <div class="modal-footer">
