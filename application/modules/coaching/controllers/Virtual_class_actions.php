@@ -190,4 +190,100 @@ class Virtual_class_actions extends MX_Controller {
         $this->output->set_output(json_encode(array('status'=>true, 'message'=>'Link sent to selected participants', 'redirect'=>site_url ('coaching/virtual_class/participants/'.$coaching_id.'/'.$class_id.'/'.$course_id.'/'.$batch_id ) )));
     }
 
+    public function get_new_recordings  ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
+
+    	$api_setting = $this->virtual_class_model->get_api_settings ();
+		$class = $this->virtual_class_model->get_class ($coaching_id, $class_id);
+
+		// Create call and query
+		$api_url = $api_setting['api_url'];
+		$shared_secret = $api_setting['shared_secret'];
+
+		$call_name = 'getRecordings';
+		$query_string = 'meetingID='.$class['meeting_id'];
+		$final_string = $call_name . $query_string . $shared_secret;
+		$checksum = sha1($final_string);
+
+		$url = $api_url . $call_name . '?' . $query_string . '&checksum='.$checksum;
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$xml_response = curl_exec($ch);
+		curl_close($ch);
+
+		$xml = simplexml_load_string($xml_response);
+		$response = $xml->returncode;
+		$result = [];
+		if ($response == 'SUCCESS') {
+			$recordings = $xml->recordings;
+			foreach ($recordings->recording as $recording) {
+				$data = [];
+				$start_time = floatval ($recording->startTime);
+				$end_time = floatval ($recording->endTime);
+				$duration = ($end_time - $start_time)/1000;
+				$duration_mm = round ($duration / 60,  2);
+
+				$url = $recording->playback->format->url;
+				
+
+				$data['coaching_id'] = $coaching_id;
+				$data['class_id'] = $class_id;
+				$data['meeting_id'] = $meeting_id;
+				$data['course_id'] = $course_id;
+				$data['batch_id'] = $batch_id;
+				$data['recording_id'] = $recording->recordID;
+
+				if ( $this->virtual_class_model->recording_exists ($data) == false) {
+					$data['recording_name'] = $recording->name;
+					$data['publish_date'] = $start_time/1000;
+					$data['duration'] = $duration;
+					$data['publish_url'] = $url;
+					//$data['thumb_url'] = $image;
+					if ($recording->published == 'true') {
+						$data['status'] = 1;
+					} else {
+						$data['status'] = 0;
+					}					
+					//$id = $this->virtual_class_model->add_recording_data ($data);
+					$data['id'] = $id = 1;
+					$result[] = $data;
+				}
+			}
+		}
+
+		$output['coaching_id'] = $coaching_id;
+		$output['class_id'] = $class_id;
+		$output['meeting_id'] = $meeting_id;
+		$output['course_id'] = $course_id;
+		$output['batch_id'] = $batch_id;
+		$output['class'] = $class;
+		$output['result'] = $result;
+		$html = $this->load->view ('virtual_class/inc/recordings', $output, true);
+
+		$this->output->set_content_type("application/json");
+        $this->output->set_output(json_encode(array('status'=>true, 'data'=>$html)));
+
+    }
+
+
+    public function rename_recording ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
+    	$this->form_validation->set_rules ('recording_name', 'Recording Name', 'required|alpha_numeric_spaces|min_length[3]|max_length[50]|trim');
+
+    	if ($this->form_validation->run () == true) {
+    		$this->virtual_class_model->rename_recording ();
+			$this->output->set_content_type("application/json");
+	        $this->output->set_output(json_encode(array('status'=>true, 'message'=>'Recording renamed', 'redirect'=>site_url ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$class_id.'/'.$meeting_id.'/'.$course_id.'/'.$batch_id) )));
+    	} else {
+			$this->output->set_content_type("application/json");
+	        $this->output->set_output(json_encode(array('status'=>false, 'error'=>validation_errors() )));
+    	}
+    }
+
+    public function delete_recording ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
+    	//$this->virtual_class_model->delete_recording ($id);
+    	$this->message->set ('Recording deleted successfully', 'success', true);
+    	redirect ('coaching/virtual_class/recordings/'.$coaching_id.'/'.$class_id.'/'.$meeting_id.'/'.$course_id.'/'.$batch_id);
+	}
 }

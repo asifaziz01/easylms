@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 class Virtual_class_model extends CI_Model {
 
@@ -814,6 +814,81 @@ class Virtual_class_model extends CI_Model {
 			}
 		}
 		return $meeting;
+	}
+
+	public function get_recording_data ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
+		$this->db->where ('coaching_id', $coaching_id);
+		$this->db->where ('class_id', $class_id);
+		$this->db->where ('meeting_id', $meeting_id);
+		$this->db->order_by ('publish_date', 'DESC');
+		$sql = $this->db->get ('virtual_classroom_recordings');
+		return $sql->result_array ();
+	}
+
+	/* RECORDINGS */
+
+	public function get_recording ($id=0) {
+		$this->db->select ('*');
+		$this->db->where ('id', $id);
+		$sql = $this->db->get ('virtual_classroom_recordings');
+		return $sql->row_array ();
+	}
+
+
+	public function add_recording_data ($data=[]) {
+		$sql = $this->db->insert ('virtual_classroom_recordings', $data);
+		$id = $this->db->insert_id ();
+		return $id;
+	}
+
+	public function recording_exists ($data=[]) {
+		$this->db->select ('recording_id');
+		$this->db->where ($data);
+		$sql = $this->db->get ('virtual_classroom_recordings');
+		if ($sql->num_rows () > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function rename_recording () {
+		$id = $this->input->post ('id');
+		$name = $this->input->post ('recording_name');
+		$this->db->set ('recording_name', $name);
+		$this->db->where ('id', $id);
+		$sql = $this->db->update ('virtual_classroom_recordings');
+	}
+
+	public function delete_recording ($coaching_id=0, $class_id=0, $id=0) {
+		
+		$api_setting = $this->virtual_class_model->get_api_settings ();
+		$class = $this->virtual_class_model->get_class ($coaching_id, $class_id);
+		$recording = $this->get_recording ($id);
+		
+		$api_url = $api_setting['api_url'];
+		$shared_secret = $api_setting['shared_secret'];
+		$call_name = 'deleteRecordings';
+		$query_string = 'recordID='.$recording['recording_id'];
+
+		$checksum_string = $call_name . $query_string . $shared_secret;
+		$checksum = sha1 ($checksum_string);
+		$url = $api_url . $call_name . '?'. $query_string . '&checksum='.$checksum;
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$xml_response = curl_exec($ch);
+		curl_close($ch);
+		$xml = simplexml_load_string ($xml_response);
+		$returncode = $xml->returncode;
+		if ($returncode == 'SUCCESS') {
+			// Deleted 	
+		}
+
+		$this->db->where ('id', $id);
+		$sql = $this->db->delete ('virtual_classroom_recordings');
 	}
 
 }

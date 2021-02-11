@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = 'apex';
 $query_builder = TRUE;
 
 $db['default'] = array(
@@ -95,17 +95,18 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 /*
+*/
 
 
 // localhost
-$db['default'] = array(
+$db['apex'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'appsadmin_dev_easylms',
+	'hostname' => 'apexcoachings.com',
+	'username' => 'apexc_production',
+	'password' => 'Product@1234',
+	'database' => 'apexc_easylms',
 	'dbdriver' => 'mysqli',
-	'dbprefix' => 'pwa_',
+	'dbprefix' => 'apex_',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,
@@ -120,7 +121,6 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-*/
 
 $db['its'] = array(
 	'dsn'	=> '',
