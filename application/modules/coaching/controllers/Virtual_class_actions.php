@@ -246,8 +246,8 @@ class Virtual_class_actions extends MX_Controller {
 					} else {
 						$data['status'] = 0;
 					}					
-					//$id = $this->virtual_class_model->add_recording_data ($data);
-					$data['id'] = $id = 1;
+					$id = $this->virtual_class_model->add_recording_data ($data);
+					$data['id'] = $id;
 					$result[] = $data;
 				}
 			}
