@@ -44,10 +44,14 @@ class User extends MX_Controller {
 		$data['found'] = $found;
 		$data['coaching'] = $coaching;
 
+		$captcha_dir = $this->config->item ('captcha_dir');
+		if ( ! is_dir ($captcha_dir) ) {
+			mkdir ($captcha_dir, 755, true);
+		}
 		$vals = array(
 				'word'          => '',
-				'img_path'      => './contents/captcha/',
-				'img_url'       => base_url().'/contents/captcha/',
+				'img_path'      => './'.$captcha_dir,
+				'img_url'       => base_url($captcha_dir),
 				'img_width'     => '125',
 				'img_height'    => 30,
 				'word_length'   => 6,
@@ -80,11 +84,15 @@ class User extends MX_Controller {
 	/* Refresh captcha */
 	
 	public function refresh_captcha(){
-    // Captcha configuration
+	    // Captcha configuration
+		$captcha_dir = $this->config->item ('captcha_dir');
+		if ( ! is_dir ($captcha_dir) ) {
+			mkdir ($captcha_dir, 755, true);
+		}
 		$vals = array(
 					'word'          => '',
-					'img_path'      => './contents/captcha/',
-					'img_url'       => base_url().'/contents/captcha/',
+					'img_path'      => './'.$captcha_dir,
+					'img_url'       => base_url($captcha_dir),
 					'img_width'     => '125',
 					'img_height'    => 30,
 					'word_length'   => 6,
@@ -159,10 +167,14 @@ class User extends MX_Controller {
 		$data['website_link'] = $website_link;
 			
 
+		$captcha_dir = $this->config->item ('captcha_dir');
+		if ( ! is_dir ($captcha_dir) ) {
+			mkdir ($captcha_dir, 755, true);
+		}
 		$vals = array(
 				'word'          => '',
-				'img_path'      => './contents/captcha/',
-				'img_url'       => base_url().'/contents/captcha/',
+				'img_path'      => './'.$captcha_dir,
+				'img_url'       => base_url($captcha_dir),
 				'img_width'     => '125',
 				'img_height'    => 30,
 				'word_length'   => 6,

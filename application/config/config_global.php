@@ -16,6 +16,7 @@ $config['gst']['gst_slab_28']		    = 28;
 $config['upload_dir']					= 'contents/';
 $config['temp_dir']						= 'contents/temp/';
 $config['sys_dir']						= 'contents/system/';
+$config['captcha_dir']					= 'contents/captcha/';
 $config['system_logo']					= 'contents/system/system_logo.png';
 $config['coaching_logo']				= 'logo.png';
 $config['profile_picture_path']			= 'contents/profile_images/';
