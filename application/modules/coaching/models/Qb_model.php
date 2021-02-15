@@ -460,7 +460,7 @@ class Qb_model extends CI_Model {
 					} else {
 						$answer[$i] = 0;
 					}
-					if ($i > 2) $choices[$i] = '';
+					$choices[$i] = '';
 					$option[$i] = '';
 				}
 			break;

@@ -31,6 +31,7 @@ switch ($row['type']) {
 	break;
 	
 	case QUESTION_LONG:
+		/*
 		for ($i=1; $i <= 2; $i++) {
 			$choice =  ($row['choice_'.$i]);
 			if ($choice != '') {
@@ -44,6 +45,9 @@ switch ($row['type']) {
 				echo '</li>';
 			}
 		} 
+		*/
+		echo '<textarea name="ans[1]" class="form-control"></textarea>';
+
 	break;
 	
 	case QUESTION_MATCH:
