@@ -215,5 +215,40 @@ class Virtual_class_model extends CI_Model {
 		}
 	}
 
+	/* RECORDINGS */
+	public function get_recording_data ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
+		$this->db->where ('coaching_id', $coaching_id);
+		$this->db->where ('class_id', $class_id);
+		$this->db->where ('meeting_id', $meeting_id);
+		$this->db->order_by ('publish_date', 'DESC');
+		$sql = $this->db->get ('virtual_classroom_recordings');
+		return $sql->result_array ();
+	}
+
+
+	public function get_recording ($id=0) {
+		$this->db->select ('*');
+		$this->db->where ('id', $id);
+		$sql = $this->db->get ('virtual_classroom_recordings');
+		return $sql->row_array ();
+	}
+
+
+	public function add_recording_data ($data=[]) {
+		$sql = $this->db->insert ('virtual_classroom_recordings', $data);
+		$id = $this->db->insert_id ();
+		return $id;
+	}
+
+	public function recording_exists ($data=[]) {
+		$this->db->select ('recording_id');
+		$this->db->where ($data);
+		$sql = $this->db->get ('virtual_classroom_recordings');
+		if ($sql->num_rows () > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

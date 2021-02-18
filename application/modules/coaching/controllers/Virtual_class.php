@@ -226,7 +226,7 @@ class Virtual_class extends MX_Controller {
 	public function recordings ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {		
 
 		$class = $this->virtual_class_model->get_class ($coaching_id, $class_id);
-
+ 
 		// Recordings 
 		$recordings = $this->virtual_class_model->get_recording_data ($coaching_id, $class_id, $meeting_id, $course_id, $batch_id);
 

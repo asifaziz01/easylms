@@ -816,6 +816,8 @@ class Virtual_class_model extends CI_Model {
 		return $meeting;
 	}
 
+
+	/* RECORDINGS */
 	public function get_recording_data ($coaching_id=0, $class_id=0, $meeting_id=0, $course_id=0, $batch_id=0) {
 		$this->db->where ('coaching_id', $coaching_id);
 		$this->db->where ('class_id', $class_id);
@@ -825,7 +827,6 @@ class Virtual_class_model extends CI_Model {
 		return $sql->result_array ();
 	}
 
-	/* RECORDINGS */
 
 	public function get_recording ($id=0) {
 		$this->db->select ('*');

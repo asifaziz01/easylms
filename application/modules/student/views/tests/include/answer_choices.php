@@ -46,6 +46,7 @@ switch ($row['type']) {
 			}
 		} 
 		*/
+		echo '<label class="control-label">Write your answer here:</label>';
 		echo '<textarea name="ans[1]" class="form-control"></textarea>';
 
 	break;
