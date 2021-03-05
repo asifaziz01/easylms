@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+ <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 class Tests_actions extends MX_Controller { 
 	var $coaching_id = FALSE;

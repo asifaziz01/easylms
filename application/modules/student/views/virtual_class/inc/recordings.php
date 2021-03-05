@@ -33,7 +33,7 @@ if (! empty ($result)) {
                 	-->
                 </div>
                 <div class="mb-1 align-self-center pr-4">
-					
+                    <a class="btn btn-primary" href="<?php echo $record['publish_url']; ?>"  target="_blank"><i class="fa fa-play"></i> </a>					
                 </div>
             </div>
         </div>

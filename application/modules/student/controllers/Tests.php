@@ -320,7 +320,7 @@ class Tests extends MX_Controller {
 			if ($test['release_result'] == RELEASE_EXAM_IMMEDIATELY) {
 			} else {
 				$this->message->set ('Test submitted successfully. Result will be declared on a later date', 'success', true);
-				redirect ('student/tests/test_taken/'.$coaching_id.'/'.$member_id.'/'.$course_id);
+				redirect ('student/tests/tests_taken/'.$coaching_id.'/'.$member_id.'/'.$course_id);
 			}
 			$data['bc']	= ['Test Taken'=>'student/tests/tests_taken/'.$coaching_id.'/'.$member_id.'/'.$course_id];
 		} else {

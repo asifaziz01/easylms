@@ -20,7 +20,9 @@
 	}
 }
 </style>
+
 <h4><?php echo $test['title']; ?></h4>
+
 <div class="card mt-2">
 	<div class="card-header text-center">
 		<div class="d-flex justify-content-end">
@@ -87,7 +89,6 @@
 			?> 
 
 			<div id="page<?php echo $confirm_div; ?>" class="mt-4 pages page<?php echo $confirm_div; ?>" >
-				
 				<div class="card border-danger paper-shadow">
 					<div class="card-header">
 						<h4>Test Complete</h4>
@@ -98,7 +99,7 @@
 					<div class="card-footer d-flex justify-content-between">
 						<button type="button" class="btn btn-danger" onclick="show_first ();">REVIEW TEST</button>
 					</div>
-				</div>					
+				</div>
 			</div>
 
 			<input type="hidden" id="num_question" value="1">

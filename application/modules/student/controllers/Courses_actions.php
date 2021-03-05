@@ -20,9 +20,11 @@ class Courses_actions extends MX_Controller {
 	}
 
 	public function enrol_in_course ($coaching_id=0, $member_id=0, $course_id=0, $batch_id=0) {
+		/*
 		$this->courses_model->enrol_in_course ($coaching_id, $member_id, $course_id, $batch_id);
 		//$this->message->set("You have successfully enroled in this course", "info", TRUE);
 		redirect("student/courses/enrol_in_course/".$coaching_id.'/'.$course_id.'/'.$member_id);
+		*/
 	}
 
 	public function search ($coaching_id=0, $member_id=0) {

@@ -213,6 +213,7 @@ class User extends MX_Controller {
 		$logo_path = $this->config->item ('system_logo');
 		$logo = base_url ($logo_path);
 		$page_title = SITE_TITLE;
+		$found = false;
 
 		if (isset ($_GET['sub']) && ! empty ($_GET['sub']) && $_GET['sub'] != 'undefined') {
     		$access_code = $_GET['sub'];
@@ -226,11 +227,13 @@ class User extends MX_Controller {
 			$logo_path =  $coaching_dir . $coaching_logo;
 			$logo = base_url ($logo_path);
 			$page_title = $coaching['coaching_name'];
+			$found = true;
 		}
 
 		$data['page_title'] = $page_title;
 		$data['logo'] 		= $logo;
 		$data['access_code']= $access_code;
+		$data['found']		= $found;
 		// $data['page_title'] = $page_title;
 		
 		$this->load->view (INCLUDE_PATH . 'header', $data);

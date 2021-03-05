@@ -327,7 +327,7 @@ class Tests_model extends CI_Model {
 					   'loggedon'	=>	$time,
 					   'submit_time'=>	0
 					);
-		$this->db->insert('coaching_test_attempts', $data);		
+		$sql = $this->db->insert ('coaching_test_attempts', $data);
 		return $this->db->insert_id();
 	}
 	
@@ -376,6 +376,7 @@ class Tests_model extends CI_Model {
 				
 				// Submission
 				$submitted = $this->tests_reports->test_submitted ($coaching_id, $row['test_id'], $attempt_id, $member_id);
+				echo $this->db->last_query ();
 				if ( ! empty ($submitted)) {
 					$row['submitted'] = 1;
 				} else {
@@ -427,25 +428,21 @@ class Tests_model extends CI_Model {
 					$data['answer_'.$i] = $answer;	
 				}	
 			}
-		}
-		//save answer for Question type Long answers
-		if($type == QUESTION_LONG) {
+		} else if($type == QUESTION_LONG) {
+			//save answer for Question type Long answers
 			$data['answer_1'] = $answer;	
-		}
-		//save answer for Question type Multiple choice multi correct
-		if( $type == QUESTION_MCMC ) {
+		} else if( $type == QUESTION_MCMC ) {
+			//save answer for Question type Multiple choice multi correct
 			for($i=1; $i<=QB_NUM_ANSWER_CHOICES; $i++) {
 				if( isset ($answer[$i]) ) {
 					$data['answer_'.$i] = $answer[$i];
 				}
 			}
-		}
-		//save answer for Question type True False
-		if ($type == QUESTION_TF) {
+		} else if ($type == QUESTION_TF) {
+			//save answer for Question type True False
 			$data['answer_1'] = $answer;	
-		}
-		//save answer for Question type MATCH THE FOLLOWING
-		if ($type == QUESTION_MATCH) {
+		} else if ($type == QUESTION_MATCH) {
+			//save answer for Question type MATCH THE FOLLOWING
 			for ($i=1; $i<=QB_NUM_ANSWER_CHOICES; $i++) {
 				$data['answer_'.$i] = $answer[$i];	
 			}			
@@ -463,10 +460,10 @@ class Tests_model extends CI_Model {
 		// Update submission time
 		$this->db->set ('submit_time', $now);
 		$this->db->where ('id', $attempt_id);
-		$this->db->where ('coaching_id', $coaching_id);
-		$this->db->where ('test_id', $test_id);
-		$this->db->where ('member_id', $member_id);
-		$this->db->update ('coaching_test_attempts');
+		//$this->db->where ('coaching_id', $coaching_id);
+		//$this->db->where ('test_id', $test_id);
+		//$this->db->where ('member_id', $member_id);
+		$sql = $this->db->update ('coaching_test_attempts');
 	}
 
 

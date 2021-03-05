@@ -37,7 +37,7 @@ class Courses extends MX_Controller {
 	}
 	
 
-	public function my_courses ($coaching_id = 0, $member_id=0, $cat_id='-1') {
+	public function my_courses ($coaching_id=0, $member_id=0, $cat_id='-1') {
 		$data['page_title'] = 'My Courses';
 		if ($coaching_id==0) {
             $coaching_id = $this->session->userdata ('coaching_id');
@@ -60,8 +60,17 @@ class Courses extends MX_Controller {
 		$this->load->view(INCLUDE_PATH . 'footer', $data);
 	}
 
-	public function enrol_in_course ($coaching_id = 0, $course_id=0, $member_id=0) {
-		
+	public function enrol_in_course ($coaching_id=0, $member_id=0, $course_id=0, $batch_id=0) {	
+
+		$course = $this->courses_model->get_course_by_id ($course_id);
+
+
+		$amount = ($course['price']*100); 
+		$this->load->model ('payment_model');
+		$this->load->model ('razorpay_model');
+		//$this->razorpay_model->init_api ();
+		$this->razorpay_model->create_order ($coaching_id, $course_id, $batch_id, $member_id, $amount);
+
 		$data['page_title'] = 'Enrol In Courses';
 		if ($coaching_id==0) {
             $coaching_id = $this->session->userdata ('coaching_id');
@@ -73,9 +82,8 @@ class Courses extends MX_Controller {
 		$data['bc'] = array('All Courses' => 'student/courses/index/' . $coaching_id . '/' . $member_id);
 		$data['coaching_id'] = $coaching_id;
 		$data['member_id'] = $member_id;
-		$data['batch_id'] = 0;
-		//$data['courses'] = $this->courses_model->my_courses ($coaching_id, $member_id);
-		//$data['script'] = $this->load->view('courses/scripts/my_courses', $data, true);
+		$data['course_id'] = $course_id;
+		$data['batch_id'] = $batch_id;
 
 		$this->load->view(INCLUDE_PATH . 'header', $data);
 		$this->load->view('courses/enrol_in_course', $data);
